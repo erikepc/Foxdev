@@ -1,9 +1,6 @@
+namespace Foxdev.Models;
 
-
-namespace Foxdev.Models
+public class Questao
 {
-    public class Questao
-    {
         
-    }
 }
