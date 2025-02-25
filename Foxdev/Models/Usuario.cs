@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FoxDev.Models
-{
-    public class ApplicationUser : IdentityUser
+namespace FoxDev.Models;
+
+    [Table("Usuario")]
+    public class Usuario : IdentityUser
     {
         [Required(ErrorMessage = "Nome é obrigatório")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Nome deve ter entre 3 e 100 caracteres")]
@@ -22,4 +24,3 @@ namespace FoxDev.Models
         [Display(Name = "Descrição")]
         public string Descricao { get; set; }    
     }
-}

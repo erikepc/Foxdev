@@ -20,8 +20,13 @@ public class Questao
     [Required(ErrorMessage = "O tipo da questão é obrigatório.")]
     public QuestionType Tipo { get; set; }
 
+    public string AlternativaA { get; set; }
+    public string AlternativaB { get; set; }
+    public string AlternativaC { get; set; }
+    public string AlternativaD { get; set; }
+
     [Required(ErrorMessage = "A resposta correta é obrigatória.")]
-    public string RespostaCorreta { get; set; }
+    public int RespostaCorreta { get; set; }
 
     // Código relevante para a questão (opcional)
     public string CodeSnippet { get; set; }
