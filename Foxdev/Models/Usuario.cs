@@ -22,5 +22,6 @@ namespace FoxDev.Models;
 
         [StringLength(500, ErrorMessage = "Descrição não pode exceder 500 caracteres")]
         [Display(Name = "Descrição")]
-        public string Descricao { get; set; }    
-    }
+        public string Descricao { get; set; }
+    public DateTime DataNascimento { get; internal set; }
+}

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Foxdev.Models;
@@ -20,10 +21,7 @@ public class Questao
     [Required(ErrorMessage = "O tipo da questão é obrigatório.")]
     public QuestionType Tipo { get; set; }
 
-    public string AlternativaA { get; set; }
-    public string AlternativaB { get; set; }
-    public string AlternativaC { get; set; }
-    public string AlternativaD { get; set; }
+    public Array Resposta { get; set; }
 
     [Required(ErrorMessage = "A resposta correta é obrigatória.")]
     public int RespostaCorreta { get; set; }
