@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Foxdev.Models;
@@ -21,15 +21,13 @@ public class Questao
     [Required(ErrorMessage = "O tipo da questão é obrigatório.")]
     public QuestionType Tipo { get; set; }
 
-    public Array Resposta { get; set; }
+    public List<string> Respostas { get; set; } // Alterado para List<string>
 
     [Required(ErrorMessage = "A resposta correta é obrigatória.")]
+    [Range(0, int.MaxValue, ErrorMessage = "Índice inválido")]
     public int RespostaCorreta { get; set; }
 
-    // Código relevante para a questão (opcional)
     public string CodeSnippet { get; set; }
-
-    // Relacionamento com a lição (uma questão pertence a uma lição)
     public int LicaoId { get; set; }
     public Licao Licao { get; set; }
 }

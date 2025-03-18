@@ -33,10 +33,27 @@ public class AppDbSeed
          };
           builder.Entity<Licao>().HasData(licaos);
 
-          List<Questao> questaos = new List<Questao>
-          {
-            new Questao { Id = 1, LicaoId = 1, Conteudo = "O que é uma variável?", Resposta = {"Um valor fixo que não pode ser alterado"}}
-          };
+          // ... código anterior
+
+         List<Questao> questaos = new List<Questao>
+         {
+            new Questao 
+            { 
+               Id = 1, 
+               LicaoId = 1, 
+               Conteudo = "O que é uma variável?", 
+               Respostas = new List<string> 
+               { 
+                     "Um valor fixo que não pode ser alterado",
+                     "Um nome que se refere a um valor que pode mudar",
+                     "Um tipo de loop em programação"
+               }, 
+               RespostaCorreta = 1, // Segunda opção é a correta
+               Tipo = QuestionType.MultipleChoice 
+            }
+         };
+
+         builder.Entity<Questao>().HasData(questaos); // Adicionar esta linha
      }
 }
       
