@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using Foxdev.Models;
+using Microsoft.AspNetCore.Identity;
+using Foxdev.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
