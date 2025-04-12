@@ -13,9 +13,6 @@ public class Modulo
     [Required]
     [StringLength(100)]
     public string Titulo { get; set; }
-    [Required]
-    [StringLength(500)]
-    public string Descricao { get; set; }
 
     public List<Licao> Licoes { get; set; } = new List<Licao>();
 }

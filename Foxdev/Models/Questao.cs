@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Foxdev.Models;
 
@@ -16,18 +17,19 @@ public class Questao
 
     [Required(ErrorMessage = "O conteúdo da questão é obrigatório.")]
     [StringLength(500, ErrorMessage = "O conteúdo não pode exceder 500 caracteres.")]
-    public string Conteudo { get; set; }
+    public string Enunciado { get; set; }
 
     [Required(ErrorMessage = "O tipo da questão é obrigatório.")]
     public QuestionType Tipo { get; set; }
 
-    public List<string> Respostas { get; set; } // Alterado para List<string>
+    public string RespostaA { get; set; }
+    public string RespostaB { get; set; }
+    public string RespostaC { get; set; }
+    public string RespostaD { get; set; }
+    public string RespostaCorreta { get; set; }
 
-    [Required(ErrorMessage = "A resposta correta é obrigatória.")]
-    [Range(0, int.MaxValue, ErrorMessage = "Índice inválido")]
-    public int RespostaCorreta { get; set; }
-
-    public string CodeSnippet { get; set; }
+    [ForeignKey(nameof(LicaoId))] 
+    [Required(ErrorMessage = "Questão incorreta")] 
     public int LicaoId { get; set; }
     public Licao Licao { get; set; }
 }

@@ -20,5 +20,4 @@ public class Usuario : IdentityUser
     public string Descricao { get; set; }
     public DateTime DataNascimento { get; set; }
 
-    public List<UserProgress> Progressos { get; set; } = new List<UserProgress>();
 }
