@@ -1,16 +1,238 @@
-@{
-    ViewData["Title"] = "Área Convidado";
-}
-
-
-<!DOCTYPE html>
-<html lang="pt-br ">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área convidado</title>
-</head>
-<body>
-    
-</body>
+<html lang="pt-BR">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   FoxDev
+  </title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&amp;display=swap" rel="stylesheet"/>
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: "Inter", sans-serif;
+      background-color: #fef8f0;
+      min-height: 100vh;
+      margin: 0;
+      padding-bottom: 80px;
+    }
+    h1, h2, h3 {
+      font-weight: 800;
+      color: #243b5a;
+    }
+    h1 {
+      color: #f15a29;
+      font-size: 32px;
+      font-weight: 900;
+      user-select: none;
+    }
+    .badge-custom {
+      border-radius: 0.375rem;
+      padding: 0.375rem 1rem;
+      font-weight: 700;
+      font-size: 1.125rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      user-select: none;
+    }
+    .badge-heart {
+      background-color: #f15a29;
+      color: #c93f1a;
+    }
+    .badge-circle {
+      background-color: #f7941d;
+      color: #c97f0a;
+    }
+    .badge-sun {
+      background-color: #fbb03b;
+      color: #c99f0a;
+    }
+    .btn-outline-green {
+      border-color: #2a7a33;
+      color: #2a7a33;
+      font-weight: 700;
+      font-size: 1.125rem;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1.5rem;
+      transition: background-color 0.3s ease;
+    }
+    .btn-outline-green:hover {
+      background-color: #e6f0e6;
+      color: #2a7a33;
+    }
+    .btn-green {
+      background-color: #2a7a33;
+      color: white;
+      font-weight: 700;
+      font-size: 1.125rem;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1.5rem;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+    .btn-green:hover {
+      background-color: #24642a;
+      color: white;
+    }
+    .course-card {
+      background-color: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgb(0 0 0 / 0.05);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+    }
+    .course-title {
+      font-weight: 800;
+      font-size: 1.125rem;
+      color: #243b5a;
+      margin: 0;
+    }
+    .progress-circle {
+      border: 4px solid #a6c9a3;
+      border-radius: 50%;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: #2a7a33;
+      flex-shrink: 0;
+    }
+    .lock-icon {
+      color: #6b7280;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .header-icons i {
+      font-size: 1.25rem;
+    }
+    .header-icons .badge-custom span {
+      color: white;
+    }
+    .header-icons .badge-heart i {
+      color: #c93f1a;
+    }
+    .header-icons .badge-circle i {
+      color: #c97f0a;
+    }
+    .header-icons .badge-sun i {
+      color: #c99f0a;
+    }
+    .menu-btn {
+      font-size: 1.875rem;
+      color: #243b5a;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+    .menu-btn:focus {
+      outline: none;
+      box-shadow: none;
+    }
+    .fox-icon {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      width: 60px;
+      height: 60px;
+      user-select: none;
+    }
+  (min-width: 576px) {
+      .welcome-section {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 1rem !important;
+      }
+    }
+  </style>
+ </head>
+ <body>
+  <header class="d-flex justify-content-between align-items-center px-3 px-sm-5 py-4 max-w-7xl mx-auto w-100">
+   <h1>
+    FOXDEV
+   </h1>
+   <div class="d-flex gap-3 header-icons">
+    <div class="badge-custom badge-heart rounded">
+     <i class="fas fa-heart"></i>
+     <span>5</span>
+    </div>
+    <div class="badge-custom badge-circle rounded">
+     <i class="fas fa-circle"></i>
+     <span>80</span>
+    </div>
+    <div class="badge-custom badge-sun rounded">
+     <i class="fas fa-sun"></i>
+     <span>3</span>
+    </div>
+   </div>
+   <button aria-label="Menu" class="menu-btn">
+    <i class="fas fa-bars"></i>
+   </button>
+  </header>
+  <main class="container px-3 px-sm-0 mt-4">
+   <section class="d-flex flex-column flex-sm-row welcome-section gap-3 mb-4">
+    <h2 class="fw-bold text-nowrap">
+     Bem-vindo, Convidado!
+    </h2>
+    <div class="d-flex gap-3">
+     <button class="btn btn-outline-green" type="button">
+      Entrar
+     </button>
+     <button class="btn btn-green" type="button">
+      Registrar-se
+     </button>
+    </div>
+   </section>
+   <section class="d-flex flex-column gap-3">
+    <article class="course-card">
+     <div class="d-flex align-items-center gap-3">
+      <img alt="Ícone verde de peça de quebra-cabeça para Introdução à Lógica" height="40" src="https://storage.googleapis.com/a1aa/image/feabdb83-62e0-43ee-7650-749520680489.jpg" width="40"/>
+      <h3 class="course-title mb-0">
+       Introdução à Lógica
+      </h3>
+     </div>
+     <div class="progress-circle">
+      10%
+     </div>
+    </article>
+    <article class="course-card">
+     <div class="d-flex align-items-center gap-3">
+      <img alt="Ícone verde de código HTML para HTML5" height="40" src="https://storage.googleapis.com/a1aa/image/5abac9a0-465b-49d0-2466-f7bef21bca89.jpg" width="40"/>
+      <h3 class="course-title mb-0">
+       HTML5
+      </h3>
+     </div>
+     <i class="fas fa-lock lock-icon"></i>
+    </article>
+    <article class="course-card">
+     <div class="d-flex align-items-center gap-3">
+      <img alt="Ícone verde hexagonal com as letras JS para CSS3" height="40" src="https://storage.googleapis.com/a1aa/image/8ed1c493-e601-4dbe-2efd-66409edde761.jpg" width="40"/>
+      <h3 class="course-title mb-0">
+       CSS3
+      </h3>
+     </div>
+     <i class="fas fa-lock lock-icon"></i>
+    </article>
+    <article class="course-card">
+     <div class="d-flex align-items-center gap-3">
+      <img alt="Ícone verde do átomo do React para React Native" height="40" src="https://storage.googleapis.com/a1aa/image/1e3afaaa-8797-4192-bd86-78dd6469c17f.jpg" width="40"/>
+      <h3 class="course-title mb-0">
+       React Native
+      </h3>
+     </div>
+     <i class="fas fa-lock lock-icon"></i>
+    </article>
+   </section>
+  </main>
+  <img alt="Ícone verde de silhueta de raposa no canto inferior esquerdo da tela" class="fox-icon" height="60" src="https://storage.googleapis.com/a1aa/image/26ba85d1-97fd-43b0-4816-ed6519f1ea53.jpg" width="60"/>
+  <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+ </body>
 </html>
