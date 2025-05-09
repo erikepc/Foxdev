@@ -1,4 +1,4 @@
-@using Foxdev.Models // Adicionado para reconhecer ConvidadoRankingInfo
+@using Foxdev.Models
 @{
     ViewData["Title"] = "Ranking Geral";
     var userNickname = ViewData["UserNickname"] as string;
@@ -18,7 +18,7 @@
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/ranking.css" rel="stylesheet" />
 </head>
-<body>
+<body class="fundo">
     <div class="container ranking-container mt-5 mb-5">
         <div class="text-center mb-4">
             <img src="~/img/logo.png" alt="FoxDev Logo" width="100" class="mb-3"/>

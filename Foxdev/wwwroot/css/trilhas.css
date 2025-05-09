@@ -1,5 +1,12 @@
 /* trilhas.css */
 
+body.fundo {
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    background-color: rgb(221,207,202); 
+}
+
+
 .trail-container {
     max-width: 600px; /* Adjust as needed */
 }
@@ -51,7 +58,7 @@
 }
 
 .trail-node.unlocked {
-    background-color: #58cc02; /* Duolingo green */
+    background-color: #f7941d; /* Duolingo green */
 }
 
 .trail-node.locked {

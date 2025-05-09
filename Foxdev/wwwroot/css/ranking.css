@@ -1,7 +1,9 @@
 /* ranking.css */
 
-body {
-    /* background-color: #f8f9fa; */ /* Light background for the page */
+body.fundo {
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    background-color: rgb(221,207,202); 
 }
 
 .ranking-container {

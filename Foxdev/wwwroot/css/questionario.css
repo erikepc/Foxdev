@@ -1,7 +1,9 @@
 /* questionario.css */
 
-body {
-    /* background-color: #f7f7f7; */ /* Light gray background for the page */
+body.fundo {
+    font-family: "Inter", sans-serif;
+    font-weight: bold;
+    background-color: rgb(221,207,202); 
 }
 
 .questionario-container {

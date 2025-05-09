@@ -30,9 +30,9 @@ public class AppDbSeed
         _builder.Entity<Modulo>().HasData(modulos);
     }
 
-    private void SeedLicoes()
+    public void SeedLicoes()
     {
-        List<Licao> licaos = new List<Licao>
+        List<Licao> _todasAsLicoes = new List<Licao>
         {
             new Licao { Id = 1, ModuloId = 1, Titulo = "Introdução a Variáveis" },
             new Licao { Id = 2, ModuloId = 1, Titulo = "Tipos de Dados Básicos" },
@@ -45,12 +45,12 @@ public class AppDbSeed
             new Licao { Id = 9, ModuloId = 1, Titulo = "Pseudocódigo e Planejamento" },
             new Licao { Id = 10, ModuloId = 1, Titulo = "Fluxogramas e Lógica Visual" }
         };
-        _builder.Entity<Licao>().HasData(licaos);
+        _builder.Entity<Licao>().HasData(_todasAsLicoes);
     }
 
-    private void SeedQuestoes()
+    public void SeedQuestoes()
 {
-    List<Questao> questaos = new List<Questao>
+    List<Questao> _todasAsQuestoes = new List<Questao>
     {
         // Lição 1: Introdução a Variáveis (IDs 1-5)
         new Questao 
@@ -113,10 +113,22 @@ public class AppDbSeed
             RespostaD = "São obrigatórias apenas em loops",
             RespostaCorreta = "B",
             Tipo = QuestionType.MultipleChoice 
+            }, 
+
+            new Questao { 
+            Id = 6, 
+            LicaoId = 2, 
+            Enunciado = "O que é uma variavel int?", 
+            RespostaA = "Não podem ser modificadas após a criação",
+            RespostaB = "somente contem numeros", 
+            RespostaC = "São sempre números",
+            RespostaD = "São obrigatórias apenas em loops",
+            RespostaCorreta = "B",
+            Tipo = QuestionType.MultipleChoice 
             } 
     };
 
-    _builder.Entity<Questao>().HasData(questaos);
+    _builder.Entity<Questao>().HasData(_todasAsQuestoes);
 }
 
 }
