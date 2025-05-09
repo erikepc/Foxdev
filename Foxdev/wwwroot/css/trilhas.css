@@ -1,0 +1,110 @@
+/* trilhas.css */
+
+.trail-container {
+    max-width: 600px; /* Adjust as needed */
+}
+
+.trail-path {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    padding: 20px 0;
+}
+
+/* Draw the central connecting line */
+.trail-path::before {
+    content: '';
+    position: absolute;
+    top: 40px; /* Start below the first node */
+    bottom: 40px; /* End above the last node */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    background-color: #e5e5e5; /* Light grey line */
+    z-index: -1;
+}
+
+.trail-node-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px; /* Space between nodes */
+    position: relative; /* Needed for connector positioning if we add branching */
+}
+
+.trail-node {
+    width: 80px; /* Increased size */
+    height: 80px; /* Increased size */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5em; /* Larger icon */
+    color: white;
+    position: relative;
+    border: 5px solid white; /* White border */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-color: #ccc; /* Default grey for locked */
+}
+
+.trail-node.unlocked {
+    background-color: #58cc02; /* Duolingo green */
+}
+
+.trail-node.locked {
+    background-color: #e5e5e5; /* Lighter grey for locked */
+    color: #afafaf; /* Grey icon for locked */
+    cursor: default;
+}
+
+.trail-node:hover:not(.locked) {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.lock-overlay {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background-color: #777;
+    color: white;
+    border-radius: 50%;
+    padding: 5px;
+    font-size: 0.5em;
+    border: 2px solid white;
+}
+
+.trail-node-label {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #4b4b4b;
+    text-align: center;
+}
+
+/* Hide connector for the last node */
+.trail-node-container:last-child .trail-connector {
+    display: none;
+}
+
+/* Style adjustments for smaller screens if needed */
+@media (max-width: 576px) {
+    .trail-node {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8em;
+    }
+    .trail-node-label {
+        font-size: 0.9em;
+    }
+    .trail-path::before {
+        top: 30px;
+        bottom: 30px;
+    }
+    .trail-node-container {
+        margin-bottom: 30px;
+    }
+}
+

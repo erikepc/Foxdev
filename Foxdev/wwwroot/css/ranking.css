@@ -1,0 +1,81 @@
+/* ranking.css */
+
+body {
+    /* background-color: #f8f9fa; */ /* Light background for the page */
+}
+
+.ranking-container {
+    background-color: #ffffff;
+    padding: 30px 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+}
+
+.ranking-container .display-5 {
+    color: #F97316; /* FoxDev Orange */
+}
+
+.ranking-table th {
+    font-weight: 600;
+    color: #fff; /* White text for dark header */
+}
+
+.ranking-table .table-dark th {
+    background-color: #343a40; /* Bootstrap dark grey */
+    border-color: #454d55;
+}
+
+.ranking-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.ranking-table .player-highlight,
+.ranking-table .player-highlight:hover {
+    background-color: #cfe2ff !important; /* Bootstrap primary light blue for highlight */
+    font-weight: bold;
+}
+
+.ranking-table .player-highlight td,
+.ranking-table .player-highlight th {
+    color: #004085; /* Darker blue text for highlighted row */
+}
+
+.ranking-table .fa-user-circle {
+    color: #6c757d; /* Bootstrap secondary color for icon */
+}
+
+.ranking-table .badge.bg-warning {
+    font-size: 0.8em;
+    padding: 0.4em 0.6em;
+}
+
+.btn-foxdev-orange {
+    background-color: #F97316; /* Laranja FoxDev */
+    border-color: #F97316;
+    color: #ffffff;
+    font-weight: bold;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-foxdev-orange:hover {
+    background-color: #e0600c; /* Laranja FoxDev mais escuro no hover */
+    border-color: #e0600c;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .ranking-container .display-5 {
+        font-size: 2rem;
+    }
+    .ranking-table {
+        font-size: 0.9rem;
+    }
+    .ranking-table .fa-lg {
+        font-size: 1.1em;
+    }
+    .btn-lg {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+}
+

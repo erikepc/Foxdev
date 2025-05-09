@@ -1,0 +1,38 @@
+@{
+    ViewData["Title"] = "Escolha seu Apelido";
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Foxdev</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/nickname.css" rel="stylesheet" />
+</head>
+<body class="fundo font-roboto">
+    <div class="container nickname-container d-flex flex-column justify-content-center align-items-center">
+        <img src="~/img/logo.png" alt="FoxDev Logo" width="150" class="mb-4"/>
+        <h1 class="text-black fw-bold fs-3 mb-3">Como podemos te chamar?</h1>
+        <p class="text-secondary mb-4 text-center">Seu apelido será usado para salvar seu progresso e aparecer no ranking.</p>
+        
+        <form asp-controller="Home" asp-action="SalvarNicknameEContinuar" method="post" class="w-100" style="max-width: 400px;">
+            <div class="mb-3">
+                <input type="text" name="nickname" class="form-control form-control-lg text-center" placeholder="Digite seu apelido" required maxlength="20" />
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg btn-foxdev-orange">Continuar</button>
+            </div>
+        </form>
+        <div class="mt-4">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-link text-secondary">Voltar para o Início</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

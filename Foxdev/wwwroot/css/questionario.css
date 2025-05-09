@@ -1,0 +1,164 @@
+/* questionario.css */
+
+body {
+    /* background-color: #f7f7f7; */ /* Light gray background for the page */
+}
+
+.questionario-container {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 700px; /* Max width for the questionnaire box */
+    margin-top: 2rem !important;
+    margin-bottom: 3rem !important;
+}
+
+.progress-bar-container {
+    height: 20px; /* Overall height of the container */
+    background-color: #e9ecef; /* Light grey for the unfilled part */
+    border-radius: .375rem; /* Bootstrap's default border-radius */
+    overflow: hidden; /* Ensures the inner bar stays within rounded corners */
+}
+
+.progress-bar {
+    height: 100%;
+    font-size: 0.85rem; /* Smaller text on progress bar */
+    line-height: 20px; /* Vertically center text if any */
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    transition: width .6s ease;
+}
+
+.questionario-container h2, .questionario-container h3, .questionario-container h4 {
+    color: #333;
+}
+
+.questionario-container h4 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #4A4A4A;
+}
+
+.list-group-item.answer-option {
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    font-size: 1.1rem;
+}
+
+.list-group-item.answer-option:hover {
+    background-color: #f0f0f0;
+    border-color: #cccccc;
+}
+
+.list-group-item.answer-option.active {
+    background-color: #007bff; /* Bootstrap primary blue */
+    color: white;
+    border-color: #0056b3;
+}
+
+/* Correct Answer Styling */
+.list-group-item.list-group-item-success {
+    background-color: #d4edda !important; /* Bootstrap success light green */
+    color: #155724 !important; /* Bootstrap success dark green text */
+    border-color: #c3e6cb !important;
+}
+
+/* Incorrect Answer Styling */
+.list-group-item.list-group-item-danger {
+    background-color: #f8d7da !important; /* Bootstrap danger light red */
+    color: #721c24 !important; /* Bootstrap danger dark red text */
+    border-color: #f5c6cb !important;
+}
+
+#feedbackArea p {
+    font-size: 1.1rem;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#feedbackArea .text-success {
+    background-color: #e6ffed;
+    border: 1px solid #58cc02;
+}
+
+#feedbackArea .text-danger {
+    background-color: #ffe6e6;
+    border: 1px solid #ff4b4b;
+}
+
+.navigation-buttons .btn {
+    padding: 10px 25px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    min-width: 120px;
+}
+
+/* Duolingo-like button styles */
+#checkButton,
+#nextButton {
+    text-transform: uppercase;
+}
+
+#checkButton {
+    background-color: #58cc02; /* Duolingo green */
+    border-color: #58cc02;
+}
+
+#checkButton:hover {
+    background-color: #4aa602;
+    border-color: #4aa602;
+}
+
+#nextButton {
+    background-color: #1cb0f6; /* Duolingo blue for continue */
+    border-color: #1cb0f6;
+}
+
+#nextButton:hover {
+    background-color: #1391cc;
+    border-color: #1391cc;
+}
+
+#skipButton {
+    background-color: #777777;
+    border-color: #777777;
+    color: white;
+}
+
+#skipButton:hover {
+    background-color: #666666;
+    border-color: #666666;
+}
+
+/* Final score screen */
+.questionario-container .text-center h3 {
+    font-size: 1.8rem;
+    color: #58cc02;
+    margin-bottom: 1rem;
+}
+
+.questionario-container .text-center p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.questionario-container .text-center .btn-primary {
+    background-color: #F97316; /* FoxDev Orange */
+    border-color: #F97316;
+    font-size: 1.2rem;
+    padding: 12px 30px;
+}
+
+.questionario-container .text-center .btn-primary:hover {
+    background-color: #e0600c;
+    border-color: #e0600c;
+}
+

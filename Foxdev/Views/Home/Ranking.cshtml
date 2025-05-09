@@ -1,0 +1,92 @@
+@using Foxdev.Models // Adicionado para reconhecer ConvidadoRankingInfo
+@{
+    ViewData["Title"] = "Ranking Geral";
+    var userNickname = ViewData["UserNickname"] as string;
+    var userScore = (int)(ViewData["UserScore"] ?? 0);
+    var userCompletedLessons = (int)(ViewData["UserCompletedLessons"] ?? 0);
+    var rankingData = ViewData["RankingData"] as List<ConvidadoRankingInfo> ?? new List<ConvidadoRankingInfo>();
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Foxdev</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/ranking.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container ranking-container mt-5 mb-5">
+        <div class="text-center mb-4">
+            <img src="~/img/logo.png" alt="FoxDev Logo" width="100" class="mb-3"/>
+            <h1 class="display-5 fw-bold">Ranking Geral</h1>
+            <p class="lead text-muted">Veja quem está no topo da programação!</p>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-striped ranking-table align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" class="text-center">#</th>
+                        <th scope="col">Apelido</th>
+                        <th scope="col" class="text-center">Pontuação</th>
+                        <th scope="col" class="text-center">Lições Completas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < rankingData.Count; i++)
+                    {
+                        var player = rankingData[i];
+                        var rank = i + 1;
+                        <tr class="@(player.Nickname == userNickname ? "table-primary player-highlight" : "")">
+                            <th scope="row" class="text-center fw-bold">@rank</th>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-user-circle fa-lg me-2 text-secondary"></i> 
+                                    <span>@player.Nickname</span>
+                                    @if(player.Nickname == userNickname)
+                                    {
+                                        <span class="badge bg-warning text-dark ms-2">Você</span>
+                                    }
+                                </div>
+                            </td>
+                            <td class="text-center">@player.Score</td>
+                            <td class="text-center">@player.CompletedLessons</td>
+                        </tr>
+                    }
+                    @if (!rankingData.Any(p => p.Nickname == userNickname) && userNickname != null)
+                    {
+                         <tr class="table-primary player-highlight">
+                            <th scope="row" class="text-center fw-bold">N/A</th>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-user-circle fa-lg me-2 text-secondary"></i> 
+                                    <span>@userNickname</span>
+                                    <span class="badge bg-warning text-dark ms-2">Você</span>
+                                </div>
+                            </td>
+                            <td class="text-center">@userScore</td>
+                            <td class="text-center">@userCompletedLessons</td>
+                        </tr>
+                    }
+                     @if (!rankingData.Any() && userNickname == null)
+                    {
+                        <tr>
+                            <td colspan="4" class="text-center">Nenhum jogador no ranking ainda. Seja o primeiro!</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center mt-4">
+            <a asp-controller="Home" asp-action="Convidado" class="btn btn-lg btn-foxdev-orange">Voltar aos Módulos</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

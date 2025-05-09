@@ -1,0 +1,71 @@
+/* nickname.css */
+
+body.fundo.font-roboto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f2f5; /* Um cinza claro, similar ao Duolingo ou outras plataformas */
+}
+
+.nickname-container {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 480px;
+    width: 100%;
+}
+
+.nickname-container img {
+    max-width: 120px; /* Ajuste o tamanho do logo conforme necessário */
+}
+
+.nickname-container h1 {
+    color: #3c3c3c; /* Cor escura para o título */
+    font-weight: 700; /* Fonte mais forte */
+}
+
+.nickname-container p {
+    color: #757575; /* Cinza para o texto de apoio */
+    font-size: 1rem;
+}
+
+.form-control-lg {
+    padding: 0.75rem 1.25rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+}
+
+.form-control-lg:focus {
+    border-color: #F97316; /* Laranja FoxDev no foco */
+    box-shadow: 0 0 0 0.25rem rgba(249, 115, 22, 0.25);
+}
+
+.btn-foxdev-orange {
+    background-color: #F97316; /* Laranja FoxDev */
+    border-color: #F97316;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 0.75rem 1.25rem;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-foxdev-orange:hover {
+    background-color: #e0600c; /* Laranja FoxDev mais escuro no hover */
+    border-color: #e0600c;
+}
+
+.btn-link.text-secondary {
+    color: #6c757d !important;
+    text-decoration: none;
+}
+
+.btn-link.text-secondary:hover {
+    text-decoration: underline;
+}
+

@@ -39,7 +39,7 @@
   <main class="container px-3 px-sm-0 mt-4">
     <section class="d-flex flex-column flex-sm-row welcome-section gap-3 mb-4">
       <h2 class="fw-bold text-nowrap">
-        Bem-vindo, Convidado!
+        Bem-vindo, @ViewData["Nickname"]!
       </h2>
       <div class="d-flex gap-3">
         <button class="btn btn-outline-green" type="button">
@@ -51,17 +51,19 @@
       </div>
     </section>
     <section class="d-flex flex-column gap-3">
-      <article class="course-card">
-        <div class="d-flex align-items-center gap-3">
-          <img alt="Ícone Introdução à Lógica" height="40" src="~/img/logica.png" width="40" />
-          <h3 class="course-title mb-0">
-            Introdução à Lógica
-          </h3>
-        </div>
-        <div class="progress-circle">
-          10%
-        </div>
-      </article>
+      <a asp-controller="Home" asp-action="Trilhas" class="course-card-link" style="text-decoration: none; color: inherit;">
+        <article class="course-card">
+          <div class="d-flex align-items-center gap-3">
+            <img alt="Ícone Introdução à Lógica" height="40" src="~/img/logica.png" width="40" />
+            <h3 class="course-title mb-0">
+              Introdução à Lógica
+            </h3>
+          </div>
+          <div class="progress-circle">
+            0%
+          </div>
+        </article>
+      </a>
       <article class="course-card">
         <div class="d-flex align-items-center gap-3">
           <img alt="Ícone HTML5" height="40" src="~/img/html5.png" width="40" />

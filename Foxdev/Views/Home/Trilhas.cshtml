@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "Trilha de Lógica de Programação";
+    // Dados das lições do AppDbSeed.cs para o Módulo de Lógica de Programação (Id = 1)
+    var licoesLogica = new List<dynamic>
+    {
+        new { Id = 1, Nome = "Introdução a Variáveis", Status = "unlocked", Icon = "fas fa-lightbulb" },
+        new { Id = 2, Nome = "Tipos de Dados Básicos", Status = "unlocked", Icon = "fas fa-database" },
+        new { Id = 3, Nome = "Operadores Aritméticos e Lógicos", Status = "locked", Icon = "fas fa-calculator" },
+        new { Id = 4, Nome = "Estruturas Condicionais (IF/ELSE)", Status = "locked", Icon = "fas fa-code-branch" },
+        new { Id = 5, Nome = "Laços de Repetição (FOR/WHILE)", Status = "locked", Icon = "fas fa-sync-alt" },
+        new { Id = 6, Nome = "Introdução a Arrays/Listas", Status = "locked", Icon = "fas fa-list-ol" },
+        new { Id = 7, Nome = "Funções e Parâmetros", Status = "locked", Icon = "fas fa-cogs" },
+        new { Id = 8, Nome = "Depuração de Código", Status = "locked", Icon = "fas fa-bug" },
+        new { Id = 9, Nome = "Pseudocódigo e Planejamento", Status = "locked", Icon = "fas fa-file-alt" },
+        new { Id = 10, Nome = "Fluxogramas e Lógica Visual", Status = "locked", Icon = "fas fa-project-diagram" }
+    };
+    // TODO: A lógica de status (unlocked/locked) e progresso deve ser dinâmica no futuro.
+}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Foxdev</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/trilhas.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container trail-container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-center mb-0">Trilha: Lógica de Programação</h1>
+            @if (!string.IsNullOrEmpty(ViewData["Nickname"] as string))
+            {
+                <div class="d-flex align-items-center">
+                    <span class="me-2">Olá, <strong>@ViewData["Nickname"]</strong>!</span>
+                    <a asp-controller="Home" asp-action="SairDaSessao" class="btn btn-sm btn-outline-danger">Sair da Sessão</a>
+                </div>
+            }
+        </div>
+        <div class="trail-path mx-auto">
+            @foreach (var licao in licoesLogica)
+            {
+                <a asp-controller="Home" asp-action="Questionario" asp-route-licaoId="@licao.Id" class="trail-node-link" style="text-decoration: none; color: inherit;">
+                    <div class="trail-node-container">
+                        <div class="trail-node @(licao.Status)">
+                            <i class="@(licao.Icon)"></i>
+                            @if (licao.Status == "locked")
+                            {
+                                <i class="fas fa-lock lock-overlay"></i>
+                            }
+                        </div>
+                        <span class="trail-node-label">@licao.Nome</span>
+                    </div>
+                </a>
+                @if (licao.Id < licoesLogica.Count) // Verifica se não é o último item para adicionar conector
+                {
+                    // O conector visual é desenhado pelo CSS (.trail-path::before e espaçamento)
+                    // Se precisar de conectores individuais entre os 'a' tags, precisaria de outra abordagem.
+                }
+            }
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
