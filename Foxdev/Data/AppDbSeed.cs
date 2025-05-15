@@ -125,7 +125,18 @@ public class AppDbSeed
             RespostaD = "São obrigatórias apenas em loops",
             RespostaCorreta = "B",
             Tipo = QuestionType.MultipleChoice 
-            } 
+            },
+            new Questao { 
+            Id = 7, 
+            LicaoId = 3, 
+            Enunciado = "O que é uma variavel int?", 
+            RespostaA = "Não podem ser modificadas após a criação",
+            RespostaB = "somente contem numeros", 
+            RespostaC = "São sempre números",
+            RespostaD = "São obrigatórias apenas em loops",
+            RespostaCorreta = "B",
+            Tipo = QuestionType.MultipleChoice 
+            }  
     };
 
     _builder.Entity<Questao>().HasData(_todasAsQuestoes);

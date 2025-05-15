@@ -18,7 +18,7 @@ public class Licao
     [ForeignKey(nameof(ModuloId))]
     public Modulo Modulo { get; set; }
 
-    public List<Questao> Questoes { get; set; }
+    public List<Questao> Questaos { get; set; }
 }
 
 /* public class Licao

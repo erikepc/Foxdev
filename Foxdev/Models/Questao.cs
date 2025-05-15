@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace Foxdev.Models;
 
@@ -31,5 +32,7 @@ public class Questao
     [ForeignKey(nameof(LicaoId))] 
     [Required(ErrorMessage = "Questão incorreta")] 
     public int LicaoId { get; set; }
+
+    [JsonIgnore]
     public Licao Licao { get; set; }
 }
