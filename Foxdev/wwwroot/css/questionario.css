@@ -110,13 +110,13 @@ body.fundo {
 }
 
 #checkButton {
-    background-color: #58cc02; /* Duolingo green */
-    border-color: #58cc02;
+    background-color: #F97316; /* Duolingo green */
+    border-color: #F97316;
 }
 
 #checkButton:hover {
-    background-color: #4aa602;
-    border-color: #4aa602;
+    background-color: #e0600c;
+    border-color: #e0600c;
 }
 
 #nextButton {
