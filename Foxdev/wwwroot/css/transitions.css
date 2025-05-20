@@ -1,4 +1,4 @@
-/* transitions.css */
+
 
 body {
     opacity: 1;
@@ -9,7 +9,6 @@ body.fade-out {
     opacity: 0;
 }
 
-/* Optional: Add a fade-in effect for the target page */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }

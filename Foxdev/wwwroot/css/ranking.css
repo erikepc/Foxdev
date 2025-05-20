@@ -1,4 +1,4 @@
-/* ranking.css */
+
 
 body.fundo {
     font-family: "Inter", sans-serif;
@@ -14,16 +14,16 @@ body.fundo {
 }
 
 .ranking-container .display-5 {
-    color: #F97316; /* FoxDev Orange */
+    color: #F97316;
 }
 
 .ranking-table th {
     font-weight: 600;
-    color: #fff; /* White text for dark header */
+    color: #fff; 
 }
 
 .ranking-table .table-dark th {
-    background-color: #343a40; /* Bootstrap dark grey */
+    background-color: #343a40; 
     border-color: #454d55;
 }
 
@@ -33,17 +33,17 @@ body.fundo {
 
 .ranking-table .player-highlight,
 .ranking-table .player-highlight:hover {
-    background-color: #cfe2ff !important; /* Bootstrap primary light blue for highlight */
+    background-color: #cfe2ff !important; 
     font-weight: bold;
 }
 
 .ranking-table .player-highlight td,
 .ranking-table .player-highlight th {
-    color: #004085; /* Darker blue text for highlighted row */
+    color: #004085; 
 }
 
 .ranking-table .fa-user-circle {
-    color: #6c757d; /* Bootstrap secondary color for icon */
+    color: #6c757d; 
 }
 
 .ranking-table .badge.bg-warning {
@@ -52,7 +52,7 @@ body.fundo {
 }
 
 .btn-foxdev-orange {
-    background-color: #F97316; /* Laranja FoxDev */
+    background-color: #F97316; 
     border-color: #F97316;
     color: #ffffff;
     font-weight: bold;
@@ -60,11 +60,11 @@ body.fundo {
 }
 
 .btn-foxdev-orange:hover {
-    background-color: #e0600c; /* Laranja FoxDev mais escuro no hover */
+    background-color: #e0600c;
     border-color: #e0600c;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .ranking-container .display-5 {
         font-size: 2rem;

@@ -49,97 +49,96 @@ public class AppDbSeed
     }
 
     public void SeedQuestoes()
-{
-    List<Questao> _todasAsQuestoes = new List<Questao>
     {
-        // Lição 1: Introdução a Variáveis (IDs 1-5)
-        new Questao 
-        { 
-        Id = 1, 
-        LicaoId = 1, 
-        Enunciado = "O que é uma variável?", 
+        List<Questao> _todasAsQuestoes = new List<Questao>
+    {
+        new Questao
+        {
+        Id = 1,
+        LicaoId = 1,
+        Enunciado = "O que é uma variável?",
         RespostaA = "Um valor fixo que não pode ser alterado",
-        RespostaB = "Um container para armazenar dados", 
+        RespostaB = "Um container para armazenar dados",
         RespostaC = "Um tipo de operador matemático",
         RespostaD = "Um erro de sintaxe",
         RespostaCorreta = "B",
-        Tipo = QuestionType.MultipleChoice 
-        }, 
-        
-        
-        new Questao { 
-            Id = 2, 
-            LicaoId = 1, 
-            Enunciado = "Como declarar uma variável em pseudocódigo?", 
-            RespostaA = "var nome = valor", 
-            RespostaB = "variable nome = valor", 
-            RespostaC = "nome : valor", 
+        Tipo = QuestionType.MultipleChoice
+        },
+
+
+        new Questao {
+            Id = 2,
+            LicaoId = 1,
+            Enunciado = "Como declarar uma variável em pseudocódigo?",
+            RespostaA = "var nome = valor",
+            RespostaB = "variable nome = valor",
+            RespostaC = "nome : valor",
             RespostaD ="def nome(valor)",
             RespostaCorreta = "A",
-            Tipo = QuestionType.MultipleChoice 
-            }, 
-        
-        new Questao { 
-            Id = 3, 
-            LicaoId = 1, 
-            Enunciado = "Qual é o propósito de usar variáveis?", 
+            Tipo = QuestionType.MultipleChoice
+            },
+
+        new Questao {
+            Id = 3,
+            LicaoId = 1,
+            Enunciado = "Qual é o propósito de usar variáveis?",
             RespostaA = "Executar operações matemáticas",
-            RespostaB = "Armazenar e reutilizar dados", 
+            RespostaB = "Armazenar e reutilizar dados",
             RespostaC = "Definir cores em interfaces",
             RespostaD = "Criar laços de repetição",
             RespostaCorreta = "B",
-            Tipo = QuestionType.MultipleChoice 
-            }, 
-        
-        new Questao { 
-            Id = 4, 
-            LicaoId = 1, 
-            Enunciado = "Qual operador é usado para atribuir valor a uma variável?", 
-            RespostaA = "==", 
-            RespostaB = "=", 
-            RespostaC = "=>", 
+            Tipo = QuestionType.MultipleChoice
+            },
+
+        new Questao {
+            Id = 4,
+            LicaoId = 1,
+            Enunciado = "Qual operador é usado para atribuir valor a uma variável?",
+            RespostaA = "==",
+            RespostaB = "=",
+            RespostaC = "=>",
             RespostaD = "<-",
             RespostaCorreta = "B",
-            Tipo = QuestionType.MultipleChoice 
-            }, 
-        
-        new Questao { 
-            Id = 5, 
-            LicaoId = 1, 
-            Enunciado = "Qual afirmação é verdadeira sobre variáveis?", 
-            RespostaA = "Não podem ser modificadas após a criação",
-            RespostaB = "Podem mudar de valor durante a execução", 
-            RespostaC = "São sempre números",
-            RespostaD = "São obrigatórias apenas em loops",
-            RespostaCorreta = "B",
-            Tipo = QuestionType.MultipleChoice 
-            }, 
-
-            new Questao { 
-            Id = 6, 
-            LicaoId = 2, 
-            Enunciado = "O que é uma variavel int?", 
-            RespostaA = "Não podem ser modificadas após a criação",
-            RespostaB = "somente contem numeros", 
-            RespostaC = "São sempre números",
-            RespostaD = "São obrigatórias apenas em loops",
-            RespostaCorreta = "B",
-            Tipo = QuestionType.MultipleChoice 
+            Tipo = QuestionType.MultipleChoice
             },
-            new Questao { 
-            Id = 7, 
-            LicaoId = 3, 
-            Enunciado = "O que é uma variavel int?", 
+
+        new Questao {
+            Id = 5,
+            LicaoId = 1,
+            Enunciado = "Qual afirmação é verdadeira sobre variáveis?",
             RespostaA = "Não podem ser modificadas após a criação",
-            RespostaB = "somente contem numeros", 
+            RespostaB = "Podem mudar de valor durante a execução",
             RespostaC = "São sempre números",
             RespostaD = "São obrigatórias apenas em loops",
             RespostaCorreta = "B",
-            Tipo = QuestionType.MultipleChoice 
-            }  
+            Tipo = QuestionType.MultipleChoice
+            },
+
+            new Questao {
+            Id = 6,
+            LicaoId = 2,
+            Enunciado = "O que é uma variavel int?",
+            RespostaA = "Não podem ser modificadas após a criação",
+            RespostaB = "somente contem numeros",
+            RespostaC = "São sempre números",
+            RespostaD = "São obrigatórias apenas em loops",
+            RespostaCorreta = "B",
+            Tipo = QuestionType.MultipleChoice
+            },
+            new Questao {
+            Id = 7,
+            LicaoId = 3,
+            Enunciado = "O que é uma variavel int?",
+            RespostaA = "Não podem ser modificadas após a criação",
+            RespostaB = "somente contem numeros",
+            RespostaC = "São sempre números",
+            RespostaD = "São obrigatórias apenas em loops",
+            RespostaCorreta = "B",
+            Tipo = QuestionType.MultipleChoice
+            },
     };
 
-    _builder.Entity<Questao>().HasData(_todasAsQuestoes);
-}
+        _builder.Entity<Questao>().HasData(_todasAsQuestoes);
+    }
 
 }

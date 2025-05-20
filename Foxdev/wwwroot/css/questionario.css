@@ -1,4 +1,4 @@
-/* questionario.css */
+
 
 body.fundo {
     font-family: "Inter", sans-serif;
@@ -11,22 +11,22 @@ body.fundo {
     padding: 20px 30px;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    max-width: 700px; /* Max width for the questionnaire box */
+    max-width: 700px; 
     margin-top: 2rem !important;
     margin-bottom: 3rem !important;
 }
 
 .progress-bar-container {
-    height: 20px; /* Overall height of the container */
-    background-color: #e9ecef; /* Light grey for the unfilled part */
-    border-radius: .375rem; /* Bootstrap's default border-radius */
-    overflow: hidden; /* Ensures the inner bar stays within rounded corners */
+    height: 20px; 
+    background-color: #e9ecef; 
+    border-radius: .375rem; 
+    overflow: hidden; 
 }
 
 .progress-bar {
     height: 100%;
-    font-size: 0.85rem; /* Smaller text on progress bar */
-    line-height: 20px; /* Vertically center text if any */
+    font-size: 0.85rem; 
+    line-height: 20px; 
     color: #fff;
     text-align: center;
     white-space: nowrap;
@@ -60,22 +60,22 @@ body.fundo {
 }
 
 .list-group-item.answer-option.active {
-    background-color: #007bff; /* Bootstrap primary blue */
+    background-color: #007bff; 
     color: white;
     border-color: #0056b3;
 }
 
-/* Correct Answer Styling */
+
 .list-group-item.list-group-item-success {
-    background-color: #d4edda !important; /* Bootstrap success light green */
-    color: #155724 !important; /* Bootstrap success dark green text */
+    background-color: #d4edda !important; 
+    color: #155724 !important; 
     border-color: #c3e6cb !important;
 }
 
-/* Incorrect Answer Styling */
+
 .list-group-item.list-group-item-danger {
-    background-color: #f8d7da !important; /* Bootstrap danger light red */
-    color: #721c24 !important; /* Bootstrap danger dark red text */
+    background-color: #f8d7da !important; 
+    color: #721c24 !important; 
     border-color: #f5c6cb !important;
 }
 
@@ -103,14 +103,14 @@ body.fundo {
     min-width: 120px;
 }
 
-/* Duolingo-like button styles */
+
 #checkButton,
 #nextButton {
     text-transform: uppercase;
 }
 
 #checkButton {
-    background-color: #F97316; /* Duolingo green */
+    background-color: #F97316; 
     border-color: #F97316;
 }
 
@@ -120,7 +120,7 @@ body.fundo {
 }
 
 #nextButton {
-    background-color: #1cb0f6; /* Duolingo blue for continue */
+    background-color: #1cb0f6; 
     border-color: #1cb0f6;
 }
 
@@ -140,10 +140,10 @@ body.fundo {
     border-color: #666666;
 }
 
-/* Final score screen */
+
 .questionario-container .text-center h3 {
     font-size: 1.8rem;
-    color: #58cc02;
+    color: #F97316;
     margin-bottom: 1rem;
 }
 
@@ -153,7 +153,7 @@ body.fundo {
 }
 
 .questionario-container .text-center .btn-primary {
-    background-color: #F97316; /* FoxDev Orange */
+    background-color: #F97316; 
     border-color: #F97316;
     font-size: 1.2rem;
     padding: 12px 30px;

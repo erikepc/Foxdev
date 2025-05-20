@@ -1,4 +1,4 @@
-/* trilhas.css */
+
 
 body.fundo {
     font-family: "Inter", sans-serif;
@@ -8,7 +8,7 @@ body.fundo {
 
 
 .trail-container {
-    max-width: 600px; /* Adjust as needed */
+    max-width: 600px; 
 }
 
 .trail-path {
@@ -19,16 +19,16 @@ body.fundo {
     padding: 20px 0;
 }
 
-/* Draw the central connecting line */
+
 .trail-path::before {
     content: '';
     position: absolute;
-    top: 40px; /* Start below the first node */
-    bottom: 40px; /* End above the last node */
+    top: 40px;
+    bottom: 40px; 
     left: 50%;
     transform: translateX(-50%);
     width: 4px;
-    background-color: #e5e5e5; /* Light grey line */
+    background-color: #e5e5e5; 
     z-index: -1;
 }
 
@@ -36,34 +36,34 @@ body.fundo {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 40px; /* Space between nodes */
-    position: relative; /* Needed for connector positioning if we add branching */
+    margin-bottom: 40px; 
+    position: relative; 
 }
 
 .trail-node {
-    width: 80px; /* Increased size */
-    height: 80px; /* Increased size */
+    width: 80px; 
+    height: 80px; 
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.5em; /* Larger icon */
+    font-size: 2.5em; 
     color: white;
     position: relative;
-    border: 5px solid white; /* White border */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+    border: 5px solid white; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     cursor: pointer;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    background-color: #ccc; /* Default grey for locked */
+    background-color: #ccc; /
 }
 
 .trail-node.unlocked {
-    background-color: #f7941d; /* Duolingo green */
+    background-color: #f7941d; 
 }
 
 .trail-node.locked {
-    background-color: #e5e5e5; /* Lighter grey for locked */
-    color: #afafaf; /* Grey icon for locked */
+    background-color: #e5e5e5; 
+    color: #afafaf; 
     cursor: default;
 }
 
@@ -91,12 +91,12 @@ body.fundo {
     text-align: center;
 }
 
-/* Hide connector for the last node */
+
 .trail-node-container:last-child .trail-connector {
     display: none;
 }
 
-/* Style adjustments for smaller screens if needed */
+
 @media (max-width: 576px) {
     .trail-node {
         width: 60px;

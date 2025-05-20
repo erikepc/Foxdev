@@ -7,9 +7,9 @@ namespace Foxdev.Models;
 
 public enum QuestionType
 {
-    MultipleChoice, // Múltipla escolha
-    FillInTheBlank, // Preencher lacunas
-    CodeCompletion  // Completar código
+    MultipleChoice,
+    FillInTheBlank, 
+    CodeCompletion  
 }
 
 public class Questao

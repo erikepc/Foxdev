@@ -27,6 +27,10 @@ namespace Foxdev.Controllers
         {
             return View();
         }
+        public IActionResult Duvidas()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
@@ -53,9 +57,6 @@ namespace Foxdev.Controllers
                 {
                     _convidadosRanking.Add(new ConvidadoRankingInfo { Nickname = nickname, Score = 0, CompletedLessons = 0 });
                 }
-                // else // Se o convidado já existe, não zeramos o score/lições do ranking aqui.
-                // A pontuação da SESSÃO já foi zerada acima.
-                // O ranking será atualizado com a nova pontuação da sessão em ProcessarRespostas.
             }
             else
             {

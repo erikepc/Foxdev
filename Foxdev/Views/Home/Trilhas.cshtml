@@ -1,6 +1,6 @@
 @{
     ViewData["Title"] = "Trilha de Lógica de Programação";
-    // Dados das lições do AppDbSeed.cs para o Módulo de Lógica de Programação (Id = 1)
+    
     var licoesLogica = new List<dynamic>
     {
         new { Id = 1, Nome = "Introdução a Variáveis", Status = "unlocked", Icon = "fas fa-lightbulb" },
@@ -14,7 +14,7 @@
         new { Id = 9, Nome = "Pseudocódigo e Planejamento", Status = "unlocked", Icon = "fas fa-file-alt" },
         new { Id = 10, Nome = "Fluxogramas e Lógica Visual", Status = "unlocked", Icon = "fas fa-project-diagram" }
     };
-    // TODO: A lógica de status (unlocked/locked) e progresso deve ser dinâmica no futuro.
+   
 }
 
 <!DOCTYPE html>
@@ -36,7 +36,8 @@
             {
                 <div class="d-flex align-items-center">
                     <span class="me-2">Olá, <strong>@ViewData["Nickname"]</strong>!</span>
-                    <a asp-controller="Home" asp-action="SairDaSessao" class="btn btn-sm btn-outline-danger">Sair da Sessão</a>
+                    <a asp-controller="Home" asp-action="SairDaSessao" class="btn btn-sm btn-outline-danger ms-2">Sair da Sessão</a>
+                    <a asp-controller="Home" asp-action="Duvidas" class="btn btn-sm btn-outline-success ms-2">Review Modulo</a>
                 </div>
             }
         </div>
@@ -55,11 +56,6 @@
                         <span class="trail-node-label">@licao.Nome</span>
                     </div>
                 </a>
-                @if (licao.Id < licoesLogica.Count) // Verifica se não é o último item para adicionar conector
-                {
-                    // O conector visual é desenhado pelo CSS (.trail-path::before e espaçamento)
-                    // Se precisar de conectores individuais entre os 'a' tags, precisaria de outra abordagem.
-                }
             }
         </div>
     </div>

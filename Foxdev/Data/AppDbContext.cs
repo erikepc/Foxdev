@@ -29,8 +29,6 @@ public class AppDbContext : IdentityDbContext<Usuario>
 
         #region Configurações Customizadas
 
-
-        // Relacionamentos
         builder.Entity<Licao>()
             .HasOne(l => l.Modulo)
             .WithMany(m => m.Licoes)

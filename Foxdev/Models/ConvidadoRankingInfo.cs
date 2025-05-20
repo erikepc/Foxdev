@@ -1,6 +1,5 @@
 namespace Foxdev.Models;
 
-// Modelo simples para simular dados do ranking
 public class ConvidadoRankingInfo
 {
     public string Nickname { get; set; }
