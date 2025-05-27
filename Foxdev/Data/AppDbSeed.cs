@@ -34,21 +34,81 @@ public class AppDbSeed
     {
         List<Licao> _todasAsLicoes = new List<Licao>
         {
-            new Licao { Id = 1, ModuloId = 1, Titulo = "Introdução a Variáveis" },
-            new Licao { Id = 2, ModuloId = 1, Titulo = "Tipos de Dados Básicos" },
-            new Licao { Id = 3, ModuloId = 1, Titulo = "Operadores Aritméticos e Lógicos" },
-            new Licao { Id = 4, ModuloId = 1, Titulo = "Estruturas Condicionais (IF/ELSE)" },
-            new Licao { Id = 5, ModuloId = 1, Titulo = "Laços de Repetição (FOR/WHILE)" },
-            new Licao { Id = 6, ModuloId = 1, Titulo = "Introdução a Arrays/Listas" },
-            new Licao { Id = 7, ModuloId = 1, Titulo = "Funções e Parâmetros" },
-            new Licao { Id = 8, ModuloId = 1, Titulo = "Depuração de Código" },
-            new Licao { Id = 9, ModuloId = 1, Titulo = "Pseudocódigo e Planejamento" },
-            new Licao { Id = 10, ModuloId = 1, Titulo = "Fluxogramas e Lógica Visual" }
+            new Licao { 
+                Id = 1, 
+                ModuloId = 1, 
+                Titulo = "Introdução a Variáveis",
+                Explicacao = "Nesta lição, você aprenderá sobre variáveis, que são espaços na memória do computador usados para armazenar dados. Variáveis são fundamentais na programação, pois permitem que os programas armazenem e manipulem informações. Você aprenderá como declarar variáveis, atribuir valores a elas e utilizá-las em operações básicas.",
+                Icon = "fas fa-lightbulb" // Ícone adicionado
+            },
+            new Licao { 
+                Id = 2, 
+                ModuloId = 1, 
+                Titulo = "Tipos de Dados Básicos",
+                Explicacao = "Esta lição aborda os diferentes tipos de dados que podem ser armazenados em variáveis, como números inteiros, números decimais, texto (strings) e valores booleanos (verdadeiro/falso). Compreender os tipos de dados é essencial para manipular informações corretamente em seus programas.",
+                Icon = "fas fa-database" // Ícone adicionado
+            },
+            new Licao { 
+                Id = 3, 
+                ModuloId = 1, 
+                Titulo = "Operadores Aritméticos e Lógicos",
+                Explicacao = "Nesta lição, você aprenderá sobre os operadores que permitem realizar cálculos matemáticos (como adição, subtração, multiplicação e divisão) e operações lógicas (como comparações de igualdade, maior que, menor que). Esses operadores são essenciais para criar programas que tomam decisões e processam dados.",
+                Icon = "fas fa-calculator" // Ícone adicionado
+            },
+            new Licao { 
+                Id = 4, 
+                ModuloId = 1, 
+                Titulo = "Estruturas Condicionais (IF/ELSE)",
+                Explicacao = "As estruturas condicionais permitem que seu programa tome decisões baseadas em condições. Nesta lição, você aprenderá a usar comandos IF e ELSE para criar fluxos de execução diferentes dependendo de certas condições serem verdadeiras ou falsas.",
+                Icon = "fas fa-code-branch" // Ícone adicionado
+            },
+            new Licao { 
+                Id = 5, 
+                ModuloId = 1, 
+                Titulo = "Laços de Repetição (FOR/WHILE)",
+                Explicacao = "Os laços de repetição permitem executar um bloco de código múltiplas vezes. Nesta lição, você aprenderá sobre os laços FOR e WHILE, que são fundamentais para automatizar tarefas repetitivas e processar conjuntos de dados.",
+                Icon = "fas fa-sync-alt" // Ícone adicionado
+            },
+            new Licao { 
+                Id = 6, 
+                ModuloId = 1, 
+                Titulo = "Introdução a Arrays/Listas",
+                Explicacao = "Arrays e listas são estruturas de dados que permitem armazenar múltiplos valores em uma única variável. Nesta lição, você aprenderá como criar, acessar e manipular essas estruturas, que são essenciais para trabalhar com conjuntos de dados.",
+                Icon = "fas fa-list-ol" // Ícone adicionado
+            },
+            new Licao { 
+                Id = 7, 
+                ModuloId = 1, 
+                Titulo = "Funções e Parâmetros",
+                Explicacao = "Funções são blocos de código reutilizáveis que executam tarefas específicas. Nesta lição, você aprenderá a criar funções, passar parâmetros para elas e retornar valores, permitindo que você organize seu código de forma mais eficiente.",
+                Icon = "fas fa-cogs" // Ícone adicionado
+            },
+            new Licao { 
+                Id = 8, 
+                ModuloId = 1, 
+                Titulo = "Depuração de Código",
+                Explicacao = "A depuração é o processo de encontrar e corrigir erros em seu código. Nesta lição, você aprenderá técnicas e ferramentas para identificar problemas, entender mensagens de erro e corrigir bugs em seus programas.",
+                Icon = "fas fa-bug" // Ícone adicionado
+            },
+            new Licao { 
+                Id = 9, 
+                ModuloId = 1, 
+                Titulo = "Pseudocódigo e Planejamento",
+                Explicacao = "O pseudocódigo é uma forma de planejar seu programa usando linguagem natural antes de escrever o código real. Nesta lição, você aprenderá como usar o pseudocódigo para planejar a lógica do seu programa e facilitar o processo de desenvolvimento.",
+                Icon = "fas fa-file-alt" // Ícone adicionado
+            },
+            new Licao { 
+                Id = 10, 
+                ModuloId = 1, 
+                Titulo = "Fluxogramas e Lógica Visual",
+                Explicacao = "Fluxogramas são representações visuais da lógica de um programa. Nesta lição, você aprenderá a criar e interpretar fluxogramas, que são ferramentas poderosas para visualizar e planejar o fluxo de execução de seus programas.",
+                Icon = "fas fa-project-diagram" // Ícone adicionado
+            }
         };
         _builder.Entity<Licao>().HasData(_todasAsLicoes);
     }
 
-   public void SeedQuestoes()
+    public void SeedQuestoes()
     {
         List<Questao> _todasAsQuestoes = new List<Questao>
         {
@@ -91,7 +151,7 @@ public class AppDbSeed
             // Lição 4: Estruturas Condicionais (IF/ELSE) (31–40)
             new Questao { Id = 31,  LicaoId = 4, Enunciado = "Qual sintaxe básica de um if em pseudocódigo?", RespostaA = "if(condição)", RespostaB = "if = condição", RespostaC = "if condição then", RespostaD = "if: condição", RespostaCorreta = "C", Tipo = QuestionType.MultipleChoice },
             new Questao { Id = 32,  LicaoId = 4, Enunciado = "Como se escreve else?", RespostaA = "elseif", RespostaB = "else", RespostaC = "elif", RespostaD = "otherwise", RespostaCorreta = "B", Tipo = QuestionType.MultipleChoice },
-            new Questao { Id = 33,  LicaoId = 4, Enunciado = "IF aninça ELSE if é:", RespostaA = "else if", RespostaB = "ifelse", RespostaC = "elif", RespostaD = "elseif", RespostaCorreta = "A", Tipo = QuestionType.MultipleChoice },
+            new Questao { Id = 33,  LicaoId = 4, Enunciado = "Em IF aninhado, ELSE if é:", RespostaA = "else if", RespostaB = "ifelse", RespostaC = "elif", RespostaD = "elseif", RespostaCorreta = "A", Tipo = QuestionType.MultipleChoice },
             new Questao { Id = 34,  LicaoId = 4, Enunciado = "O bloco else é executado quando:", RespostaA = "sempre antes do if", RespostaB = "condição é verdadeira", RespostaC = "nunca", RespostaD = "condição é falsa", RespostaCorreta = "D", Tipo = QuestionType.MultipleChoice },
             new Questao { Id = 35,  LicaoId = 4, Enunciado = "É possível aninhar ifs? ", RespostaA = "Sim", RespostaB = "Não", RespostaC = "Só em Java", RespostaD = "Só em pseudocódigo", RespostaCorreta = "A", Tipo = QuestionType.MultipleChoice },
             new Questao { Id = 36,  LicaoId = 4, Enunciado = "switch-case é equivalente a:", RespostaA = "for", RespostaB = "do-while", RespostaC = "if aninhado", RespostaD = "while", RespostaCorreta = "C", Tipo = QuestionType.MultipleChoice },
@@ -176,5 +236,5 @@ public class AppDbSeed
         _builder.Entity<Questao>().HasData(_todasAsQuestoes);
     }
 
-
 }
+

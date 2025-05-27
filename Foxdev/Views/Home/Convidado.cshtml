@@ -1,35 +1,29 @@
-<html lang="pt-BR">
+@{
+    ViewData["Title"] = "Área do Convidado";
+    var currentLives = (int)(ViewData["UserLives"] ?? 5);
+    var lastRegenTimestampStr = ViewData["LastRegenTimestamp"] as string;
+    var regenIntervalMinutes = (int)(ViewData["RegenIntervalMinutes"] ?? 5);
+}
 
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
-  <title>
-    FoxDev
-  </title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&amp;display=swap" rel="stylesheet" />
-  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet" />
-  <link href="~/css/convidado.css" rel="stylesheet" />
-  <style>
+<link href="~/css/convidado.css" rel="stylesheet" />
 
-  </style>
-</head>
-
-<body>
+<body class="fundo">
   <header class="d-flex justify-content-between align-items-center px-3 px-sm-5 py-4 max-w-7xl mx-auto w-100">
    <div class="d-flex gap-3 header-icons">
-    <div class="badge-custom badge-heart rounded">
+    <div id="lives-badge" class="badge-custom badge-heart rounded" 
+         data-bs-toggle="tooltip" 
+         data-bs-placement="bottom" 
+         title="Calculando...">  <!-- Tooltip inicial -->
      <i class="fas fa-heart"></i>
-     <span>5</span>
+     <span id="lives-count">@currentLives</span>
     </div>
     <div class="badge-custom badge-circle rounded">
      <i class="fas fa-circle"></i>
-     <span>80</span>
+     <span>80</span> <!-- Placeholder, ajustar se necessário -->
     </div>
     <div class="badge-custom badge-sun rounded">
      <i class="fas fa-sun"></i>
-     <span>3</span>
+     <span>3</span> <!-- Placeholder, ajustar se necessário -->
     </div>
    </div>
    
@@ -108,7 +102,69 @@
     </section>
   </main>
   <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>  
+  
+  <!-- Script para inicializar os tooltips e atualizar o timer de vidas -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const livesBadge = document.getElementById("lives-badge");
+      const livesCountSpan = document.getElementById("lives-count");
+      const currentLives = parseInt(livesCountSpan.textContent);
+      const lastRegenTimestampStr = "@lastRegenTimestampStr";
+      const regenIntervalMinutes = @regenIntervalMinutes;
+      let timerInterval = null;
+
+      // Inicializa o tooltip
+      const tooltip = new bootstrap.Tooltip(livesBadge);
+
+      function updateTooltipTimer() {
+        if (currentLives >= 5) {
+          livesBadge.setAttribute("data-bs-original-title", "Vidas cheias");
+          tooltip.setContent({ ".tooltip-inner": "Vidas cheias" }); // Atualiza o conteúdo se já estiver visível
+          if (timerInterval) clearInterval(timerInterval);
+          return;
+        }
+
+        try {
+          const lastRegenTime = new Date(lastRegenTimestampStr);
+          const now = new Date();
+          const nextRegenTime = new Date(lastRegenTime.getTime() + regenIntervalMinutes * 60 * 1000);
+          
+          const diffSeconds = Math.max(0, Math.floor((nextRegenTime - now) / 1000));
+          
+          if (diffSeconds <= 0) {
+            // O tempo acabou, idealmente deveria recarregar ou atualizar via AJAX
+            // Por agora, apenas mostra que está regenerando e para o timer.
+            livesBadge.setAttribute("data-bs-original-title", "Regenerando...");
+            tooltip.setContent({ ".tooltip-inner": "Regenerando..." });
+            if (timerInterval) clearInterval(timerInterval);
+            // Poderia adicionar um setTimeout para recarregar a página: setTimeout(() => location.reload(), 1500);
+          } else {
+            const minutes = Math.floor(diffSeconds / 60);
+            const seconds = diffSeconds % 60;
+            const timeString = `Próxima vida em ${minutes}m ${seconds}s`;
+            livesBadge.setAttribute("data-bs-original-title", timeString);
+            tooltip.setContent({ ".tooltip-inner": timeString }); // Atualiza o conteúdo se já estiver visível
+          }
+        } catch (e) {
+          console.error("Erro ao calcular tempo de regeneração:", e);
+          livesBadge.setAttribute("data-bs-original-title", "Erro no cálculo");
+          tooltip.setContent({ ".tooltip-inner": "Erro no cálculo" });
+          if (timerInterval) clearInterval(timerInterval);
+        }
+      }
+
+      // Atualiza o timer imediatamente e depois a cada segundo
+      updateTooltipTimer(); 
+      if (currentLives < 5) {
+          timerInterval = setInterval(updateTooltipTimer, 1000);
+      }
+      
+      // Limpa o intervalo quando a página for descarregada (boa prática)
+      window.addEventListener("beforeunload", () => {
+          if (timerInterval) clearInterval(timerInterval);
+      });
+    });
   </script>
 </body>
 
-</html>
