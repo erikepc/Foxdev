@@ -14,9 +14,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - @nomeLicao - Foxdev</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="~/css/questionario.css" rel="stylesheet" />
+    <link href="~/css/gif-overlay.css" rel="stylesheet" />
+    <link href="~/css/popup-feedback.css" rel="stylesheet" />
 </head>
 <body class="fundo">
     <div class="container questionario-container mt-4 mb-5">
@@ -66,8 +67,12 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM carregado, iniciando script do Questionário."); // Log inicial para verificar execução
         const questoes = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(questoesDaLicao));
         const licaoIdParaScript = @Convert.ToInt32(licaoId);
+        const initialLives = @(ViewData["UserLives"] as int? ?? 5); // Obter vidas iniciais
+        let currentClientLives = initialLives; // Vidas gerenciadas no cliente para feedback imediato
         let currentQuestionIndex = 0;
         let score = 0; 
         let selectedAnswer = null;
@@ -82,16 +87,45 @@
         const skipButton = document.getElementById("skipButton"); 
         const questionProgress = document.getElementById("questionProgress");
         const navigationButtons = document.querySelector(".navigation-buttons");
+        const errorPopupOverlay = document.getElementById("errorPopupOverlay");
+        const errorPopupMessage = document.getElementById("errorPopupMessage");
+        const errorPopupCloseBtn = document.getElementById("errorPopupCloseBtn");
+        let firstErrorOccurred = false; // Flag para controlar a primeira mensagem de erro
 
-        // Iniciar questionário quando o botão for clicado
-        iniciarQuestionarioBtn.addEventListener("click", function() {
-            explicacaoArea.style.display = "none";
-            questionArea.style.display = "block";
-            navigationButtons.style.display = "flex";
-            loadQuestion(currentQuestionIndex);
+        // Fechar o popup de erro
+        errorPopupCloseBtn.addEventListener("click", function() {
+            errorPopupOverlay.classList.remove("show");
+        });
+        errorPopupOverlay.addEventListener("click", function(event) {
+            if (event.target === errorPopupOverlay) { // Fechar se clicar fora do conteúdo
+                errorPopupOverlay.classList.remove("show");
+            }
         });
 
+        // Iniciar questionário SOMENTE SE o botão existir (ou seja, se houver questões)
+        console.log("Tentando encontrar o botão Iniciar Questionário...");
+        if (iniciarQuestionarioBtn) {
+            console.log("Botão Iniciar Questionário encontrado. Adicionando listener...");
+            iniciarQuestionarioBtn.addEventListener("click", function() {
+                console.log("Botão Iniciar Questionário clicado!");
+                explicacaoArea.style.display = "none";
+                questionArea.style.display = "block";
+                navigationButtons.style.display = "flex";
+                // Carrega a primeira questão APENAS quando o botão é clicado
+                console.log("Verificando se há questões para carregar...");
+                if (questoes && questoes.length > 0) {
+                     console.log("Chamando loadQuestion...");
+                     loadQuestion(currentQuestionIndex);
+                } else {
+                    console.log("Nenhuma questão encontrada para carregar.");
+                }
+            });
+        } else {
+            console.log("Botão Iniciar Questionário NÃO encontrado.");
+        }
+
         function loadQuestion(index) {
+            console.log(`loadQuestion chamada para o índice: ${index}`);
             selectedAnswer = null;
             const q = questoes[index];
             questionArea.innerHTML = `
@@ -151,6 +185,21 @@
             else {
                 feedbackText.textContent = `Incorreto. A resposta correta era: ${correctAnswer}`;
                 feedbackText.className = "fw-bold text-danger";
+                
+                // Lógica para exibir o popup de erro
+                currentClientLives--; // Decrementa a vida no cliente
+                let popupMessage = "";
+                if (currentClientLives <= 0) {
+                    popupMessage = "Você está sem vidas, terá que aguardar para continuar os estudos";
+                } else if (!firstErrorOccurred) {
+                    popupMessage = "Oh não! que pena, você acaba de perder uma vida! lembre-se se perder 5 vidas terá que esperar até que elas recarreguem.";
+                    firstErrorOccurred = true;
+                } else {
+                    popupMessage = "Oh não, lá se foi mais uma vida!";
+                }
+                
+                errorPopupMessage.textContent = popupMessage;
+                errorPopupOverlay.classList.add("show");
             }
             feedbackArea.style.display = "block";
             checkButton.style.display = "none";
@@ -231,13 +280,25 @@
             }
         });
 
-        if (questoes && questoes.length > 0) {
-            loadQuestion(currentQuestionIndex);
+        // Carrega a primeira questão se houver questões e o botão de iniciar não existir (caso raro, mas seguro)
+        // Ou se o botão existir, a primeira questão será carregada no clique do botão.
+        if (questoes && questoes.length > 0 && !iniciarQuestionarioBtn) {
+             console.log("Botão Iniciar não encontrado, carregando primeira questão diretamente.");
+             loadQuestion(currentQuestionIndex);
         }
+    }); // Fecha o DOMContentLoaded
 
-    </script>
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Popup de Feedback de Erro -->
+    <div id="errorPopupOverlay" class="popup-overlay">
+        <div class="popup-content">
+            <button id="errorPopupCloseBtn" class="popup-close-btn">&times;</button>
+            <img id="errorPopupImage" src="~/img/foxTriste2.gif" alt="Feedback Visual" />
+            <p id="errorPopupMessage"></p>
+        </div>
+    </div>
 </body>
 </html>
 

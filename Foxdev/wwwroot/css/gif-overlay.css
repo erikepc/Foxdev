@@ -1,0 +1,59 @@
+/* Estilos para o overlay do GIF de palmas */
+.gif-overlay-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    pointer-events: none; /* Permite clicar através do overlay */
+}
+
+.gif-container {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 450px;
+    max-height: 450px;
+    animation: bounce 1s ease infinite;
+    z-index: 1010; /* Garantir que fique acima do conteúdo */
+}
+
+.gif-container img {
+    width: 100%;
+    height: auto;
+}
+
+/* Animação de bounce para o GIF */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(-50%) scale(1);
+    }
+    50% {
+        transform: translateY(-50%) scale(1.05);
+    }
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    .gif-container {
+        max-width: 250px;
+        right: 5%;
+    }
+}
+
+@media (max-width: 576px) {
+    .gif-container {
+        max-width: 180px;
+        right: 0;
+    }
+}
+
+/* Compatibilidade com tema escuro */
+body.dark-theme .gif-overlay-container {
+    background-color: rgba(0, 0, 0, 0.1);
+}
