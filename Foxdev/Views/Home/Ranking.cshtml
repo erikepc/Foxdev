@@ -42,11 +42,11 @@
                         var player = rankingData[i];
                         var rank = i + 1;
                         <tr class="@(player.Nickname == userNickname ? "table-primary player-highlight" : "")">
-                            <th scope="row" class="text-center fw-bold">@rank</th>
+                            <th scope="row" class="ranking-score text-center fw-bold">@rank</th>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-user-circle fa-lg me-2 text-secondary"></i> 
-                                    <span>@player.Nickname</span>
+                                    <span class="ranking-name">@player.Nickname</span>
                                     @if(player.Nickname == userNickname)
                                     {
                                         <span class="badge bg-warning text-dark ms-2">Você</span>
@@ -64,7 +64,7 @@
                             <td>
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-user-circle fa-lg me-2 text-secondary"></i> 
-                                    <span>@userNickname</span>
+                                    <span class="ranking-name">@userNickname</span>
                                     <span class="badge bg-warning text-dark ms-2">Você</span>
                                 </div>
                             </td>

@@ -303,7 +303,7 @@ namespace Foxdev.Controllers
 
             var rankingParaView = new List<ConvidadoRankingInfo>(_convidadosRanking);
             
-            if (!rankingParaView.Any(r => r.Nickname == "PlayerOne")) rankingParaView.Add(new ConvidadoRankingInfo { Nickname = "PlayerOne", Score = 1500, CompletedLessons = 10 });
+            if (!rankingParaView.Any(r => r.Nickname == "PlayerOne")) rankingParaView.Add(new ConvidadoRankingInfo { Nickname = "Admin", Score = 20000, CompletedLessons = 1000 });
 
             ViewData["RankingData"] = rankingParaView.OrderByDescending(r => r.Score).ToList();
             return View();

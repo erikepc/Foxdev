@@ -10,7 +10,7 @@
     --danger-color-light: #dc3545;
     
     --bg-color-dark: #111827; /* Azul-acinzentado escuro */
-    --text-color-dark: #e5e7eb; /* Cinza claro */
+    --text-color-dark: #f8f8f8; /* Cinza claro */
     --card-bg-dark: #1f2937; /* Azul-acinzentado um pouco mais claro */
     --border-color-dark: #4b5563; /* Cinza médio */
     --primary-color-dark: #3b82f6; /* Azul mais vibrante */
@@ -21,6 +21,7 @@
     --navbar-bg-dark: #1f2937; /* Fundo da navbar igual ao card */
     --navbar-text-dark: #e5e7eb; /* Texto da navbar */
     --hover-bg-dark: #374151; /* Fundo para hover */
+    
 }
 
 
@@ -63,6 +64,10 @@ body.dark-theme .fundo {
     background-color: var(--bg-color-dark) !important;
 }
 
+body.dark-theme span.ranking-name
+{
+    color: var(--text-color-light);
+}
 /* Textos Gerais */
 body.dark-theme h1,
 body.dark-theme h2,
@@ -71,8 +76,8 @@ body.dark-theme h4,
 body.dark-theme h5,
 body.dark-theme h6,
 body.dark-theme p,
-body.dark-theme label,
 body.dark-theme span,
+body.dark-theme label,
 body.dark-theme div,
 body.dark-theme li,
 body.dark-theme dt,
@@ -80,14 +85,17 @@ body.dark-theme dd {
     color: var(--text-color-dark); /* Cor de texto padrão clara */
 }
 
-/* Texto específico da Index (Sobrescreve text-black) */
-body.dark-theme main .text-black {
-    color: var(--text-color-dark) !important; 
+
+body.dark-theme .frase-inicial
+{
+    color: var(--text-color-dark);
 }
+
+
 
 /* Links */
 body.dark-theme a {
-    color: var(--link-color-dark);
+    color: #fff;
 }
 body.dark-theme a:hover {
     color: var(--text-color-dark);
@@ -132,9 +140,17 @@ body.dark-theme .trail-container {
 }
 
 /* Ranking Table Text */
-body.dark-theme .ranking-table th,
+body.dark-theme .ranking-table th{
+    color: var(--text-color-dark) !important;
+}
+body.dark-theme .ranking-table th.ranking-score{
+    color: var(--text-color-light) !important;
+}
+body.dark-theme .ranking-table th .ranking{
+    color: var(--text-color-light) !important;
+}
 body.dark-theme .ranking-table td {
-    color: var(--text-color-dark) !important; /* Garante texto claro na tabela */
+    color: var(--text-color-light) !important; /* Garante texto claro na tabela */
 }
 
 body.dark-theme .card-header {    background-color: rgba(255, 255, 255, 0.05);
@@ -148,7 +164,7 @@ body.dark-theme input[type="email"],
 body.dark-theme input[type="password"] {
     background-color: var(--input-bg-dark);
     border: 1px solid var(--border-color-dark);
-    color: var(--text-color-dark);
+
 }
 body.dark-theme .form-control::placeholder {
     color: var(--secondary-color-dark);
