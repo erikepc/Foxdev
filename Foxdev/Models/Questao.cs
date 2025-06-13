@@ -27,6 +27,9 @@ public class Questao
     public string RespostaB { get; set; }
     public string RespostaC { get; set; }
     public string RespostaD { get; set; }
+    
+    // Para MultipleChoice, RespostaCorreta armazena a letra (A, B, C, D).
+    // Para FillInTheBlank/CodeCompletion, armazena a resposta esperada.
     public string RespostaCorreta { get; set; }
 
     [ForeignKey(nameof(LicaoId))] 
@@ -36,3 +39,5 @@ public class Questao
     [JsonIgnore]
     public Licao Licao { get; set; }
 }
+
+

@@ -66,230 +66,6 @@
         }
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("DOM carregado, iniciando script do Questionário."); // Log inicial para verificar execução
-        const questoes = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(questoesDaLicao));
-        const licaoIdParaScript = @Convert.ToInt32(licaoId);
-        const initialLives = @(ViewData["UserLives"] as int? ?? 5); // Obter vidas iniciais
-        let currentClientLives = initialLives; // Vidas gerenciadas no cliente para feedback imediato
-        let currentQuestionIndex = 0;
-        let score = 0; 
-        let selectedAnswer = null;
-
-        const explicacaoArea = document.getElementById("explicacaoArea");
-        const iniciarQuestionarioBtn = document.getElementById("iniciarQuestionarioBtn");
-        const questionArea = document.getElementById("questionArea");
-        const feedbackArea = document.getElementById("feedbackArea");
-        const feedbackText = document.getElementById("feedbackText");
-        const checkButton = document.getElementById("checkButton");
-        const nextButton = document.getElementById("nextButton");
-        const skipButton = document.getElementById("skipButton"); 
-        const questionProgress = document.getElementById("questionProgress");
-        const navigationButtons = document.querySelector(".navigation-buttons");
-        const errorPopupOverlay = document.getElementById("errorPopupOverlay");
-        const errorPopupMessage = document.getElementById("errorPopupMessage");
-        const errorPopupCloseBtn = document.getElementById("errorPopupCloseBtn");
-        let firstErrorOccurred = false; // Flag para controlar a primeira mensagem de erro
-
-        // Fechar o popup de erro
-        errorPopupCloseBtn.addEventListener("click", function() {
-            errorPopupOverlay.classList.remove("show");
-        });
-        errorPopupOverlay.addEventListener("click", function(event) {
-            if (event.target === errorPopupOverlay) { // Fechar se clicar fora do conteúdo
-                errorPopupOverlay.classList.remove("show");
-            }
-        });
-
-        // Iniciar questionário SOMENTE SE o botão existir (ou seja, se houver questões)
-        console.log("Tentando encontrar o botão Iniciar Questionário...");
-        if (iniciarQuestionarioBtn) {
-            console.log("Botão Iniciar Questionário encontrado. Adicionando listener...");
-            iniciarQuestionarioBtn.addEventListener("click", function() {
-                console.log("Botão Iniciar Questionário clicado!");
-                explicacaoArea.style.display = "none";
-                questionArea.style.display = "block";
-                navigationButtons.style.display = "flex";
-                // Carrega a primeira questão APENAS quando o botão é clicado
-                console.log("Verificando se há questões para carregar...");
-                if (questoes && questoes.length > 0) {
-                     console.log("Chamando loadQuestion...");
-                     loadQuestion(currentQuestionIndex);
-                } else {
-                    console.log("Nenhuma questão encontrada para carregar.");
-                }
-            });
-        } else {
-            console.log("Botão Iniciar Questionário NÃO encontrado.");
-        }
-
-        function loadQuestion(index) {
-            console.log(`loadQuestion chamada para o índice: ${index}`);
-            selectedAnswer = null;
-            const q = questoes[index];
-            questionArea.innerHTML = `
-                <h4>${q.Enunciado}</h4>
-                <ul class="list-group mt-3">
-                    <li class="list-group-item answer-option" data-value="A">A) ${q.RespostaA}</li>
-                    <li class="list-group-item answer-option" data-value="B">B) ${q.RespostaB}</li>
-                    <li class="list-group-item answer-option" data-value="C">C) ${q.RespostaC}</li>
-                    <li class="list-group-item answer-option" data-value="D">D) ${q.RespostaD}</li>
-                </ul>
-            `;
-            document.querySelectorAll(".answer-option").forEach(option => {
-                option.addEventListener("click", function() {
-                    if (checkButton.style.display !== "none") { 
-                        document.querySelectorAll(".answer-option").forEach(opt => opt.classList.remove("active"));
-                        this.classList.add("active");
-                        selectedAnswer = this.dataset.value;
-                    }
-                });
-            });
-            updateProgress();
-            feedbackArea.style.display = "none";
-            checkButton.style.display = "block";
-            nextButton.style.display = "none";
-            checkButton.disabled = false;
-        }
-
-        function updateProgress() {
-            const progressPercentage = ((currentQuestionIndex) / questoes.length) * 100;
-            questionProgress.style.width = progressPercentage + "%";
-            questionProgress.setAttribute("aria-valuenow", progressPercentage);
-        }
-
-        checkButton.addEventListener("click", function() {
-            if (selectedAnswer === null) {
-                alert("Por favor, selecione uma resposta.");
-                return;
-            }
-            this.disabled = true;
-            const correctAnswer = questoes[currentQuestionIndex].RespostaCorreta;
-            const options = document.querySelectorAll(".answer-option");
-            options.forEach(option => {
-                option.classList.remove("active");
-                if (option.dataset.value === correctAnswer) {
-                    option.classList.add("list-group-item-success");
-                }
-                if (option.dataset.value === selectedAnswer && selectedAnswer !== correctAnswer) {
-                    option.classList.add("list-group-item-danger");
-                }
-                option.style.pointerEvents = "none";
-            });
-            if (selectedAnswer === correctAnswer) {
-                feedbackText.textContent = "Correto!";
-                feedbackText.className = "fw-bold text-success";
-                score++; 
-            }
-            else {
-                feedbackText.textContent = `Incorreto. A resposta correta era: ${correctAnswer}`;
-                feedbackText.className = "fw-bold text-danger";
-                
-                // Lógica para exibir o popup de erro
-                currentClientLives--; // Decrementa a vida no cliente
-                let popupMessage = "";
-                if (currentClientLives <= 0) {
-                    popupMessage = "Você está sem vidas, terá que aguardar para continuar os estudos";
-                } else if (!firstErrorOccurred) {
-                    popupMessage = "Oh não! que pena, você acaba de perder uma vida! lembre-se se perder 5 vidas terá que esperar até que elas recarreguem.";
-                    firstErrorOccurred = true;
-                } else {
-                    popupMessage = "Oh não, lá se foi mais uma vida!";
-                }
-                
-                errorPopupMessage.textContent = popupMessage;
-                errorPopupOverlay.classList.add("show");
-            }
-            feedbackArea.style.display = "block";
-            checkButton.style.display = "none";
-            nextButton.style.display = "block";
-        });
-
-        nextButton.addEventListener("click", function() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questoes.length) {
-                loadQuestion(currentQuestionIndex);
-            }
-            else {
-                var pontuacaoFinalObtida = score * 100; 
-                var totalQuestoesNoQuiz = questoes.length;
-
-    
-                const dadosResultado = {
-                    licaoId: licaoIdParaScript,
-                    scoreObtido: pontuacaoFinalObtida,
-                    totalQuestoes: totalQuestoesNoQuiz
-                };
-                
-                questionArea.innerHTML = `<p class="text-center">Salvando seu progresso...</p>`;
-                feedbackArea.style.display = "none";
-                checkButton.style.display = "none";
-                nextButton.style.display = "none";
-                skipButton.style.display = "none";
-
-                fetch("@Url.Action("ProcessarRespostas", "Home")", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                       
-                    },
-                    body: JSON.stringify(dadosResultado)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        questionArea.innerHTML = `
-                            <h3 class="text-center">Questionário Concluído!</h3>
-                            <p class="text-center">Você fez ${pontuacaoFinalObtida} pontos (${score} de ${totalQuestoesNoQuiz} questões corretas).</p>
-                            <p class="text-center">${data.message}</p>
-                            <p class="text-center">Vidas restantes: <span class="text-danger"><i class="fas fa-heart"></i> ${data.currentLives}</span></p>
-                            <div class="text-center mt-4">
-                                 <a href="@Url.Action("Trilhas", "Home")" class="btn btn-primary">Voltar para Trilhas</a>
-                            </div>
-                        `;
-                    }
-                    else {
-                        questionArea.innerHTML = `
-                            <h3 class="text-center text-danger">Erro ao Salvar!</h3>
-                            <p class="text-center">Ocorreu um erro ao salvar seu progresso: ${data.message}</p>
-                            <p class="text-center">Sua pontuação foi: ${pontuacaoFinalObtida} pontos (${score} de ${totalQuestoesNoQuiz} questões corretas).</p>
-                            <div class="text-center mt-4">
-                                 <a href="@Url.Action("Trilhas", "Home")" class="btn btn-warning">Voltar para Trilhas (Progresso não salvo)</a>
-                            </div>
-                        `;
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro na requisição AJAX:", error);
-                    questionArea.innerHTML = `
-                        <h3 class="text-center text-danger">Erro de Conexão!</h3>
-                        <p class="text-center">Não foi possível conectar ao servidor para salvar seu progresso.</p>
-                        <p class="text-center">Sua pontuação foi: ${pontuacaoFinalObtida} pontos (${score} de ${totalQuestoesNoQuiz} questões corretas).</p>
-                        <div class="text-center mt-4">
-                             <a href="@Url.Action("Trilhas", "Home")" class="btn btn-warning">Voltar para Trilhas (Progresso não salvo)</a>
-                        </div>
-                    `;
-                })
-                .finally(() => {
-                    const finalProgress = 100;
-                    questionProgress.style.width = finalProgress + "%";
-                    questionProgress.setAttribute("aria-valuenow", finalProgress);
-                    questionProgress.textContent = "Completo!";
-                });
-            }
-        });
-
-        // Carrega a primeira questão se houver questões e o botão de iniciar não existir (caso raro, mas seguro)
-        // Ou se o botão existir, a primeira questão será carregada no clique do botão.
-        if (questoes && questoes.length > 0 && !iniciarQuestionarioBtn) {
-             console.log("Botão Iniciar não encontrado, carregando primeira questão diretamente.");
-             loadQuestion(currentQuestionIndex);
-        }
-    }); // Fecha o DOMContentLoaded
-
-</script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Popup de Feedback de Erro -->
     <div id="errorPopupOverlay" class="popup-overlay">
@@ -301,4 +77,273 @@
     </div>
 </body>
 </html>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM carregado, iniciando script do Questionário.");
+            const questoes = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(questoesDaLicao));
+            const licaoIdParaScript = @Convert.ToInt32(licaoId);
+            const initialLives = @(ViewData["UserLives"] as int? ?? 5);
+            let currentClientLives = initialLives;
+            let currentQuestionIndex = 0;
+            let score = 0;
+            let selectedAnswer = null;
+
+            const explicacaoArea = document.getElementById("explicacaoArea");
+            const iniciarQuestionarioBtn = document.getElementById("iniciarQuestionarioBtn");
+            const questionArea = document.getElementById("questionArea");
+            const feedbackArea = document.getElementById("feedbackArea");
+            const feedbackText = document.getElementById("feedbackText");
+            const checkButton = document.getElementById("checkButton");
+            const nextButton = document.getElementById("nextButton");
+            const skipButton = document.getElementById("skipButton");
+            const questionProgress = document.getElementById("questionProgress");
+            const navigationButtons = document.querySelector(".navigation-buttons");
+            const errorPopupOverlay = document.getElementById("errorPopupOverlay");
+            const errorPopupMessage = document.getElementById("errorPopupMessage");
+            const errorPopupCloseBtn = document.getElementById("errorPopupCloseBtn");
+            let firstErrorOccurred = false;
+
+            // Fechar o popup de erro
+            errorPopupCloseBtn.addEventListener("click", function() {
+                errorPopupOverlay.classList.remove("show");
+            });
+            errorPopupOverlay.addEventListener("click", function(event) {
+                if (event.target === errorPopupOverlay) {
+                    errorPopupOverlay.classList.remove("show");
+                }
+            });
+
+            function updateProgress() {
+                const progress = ((currentQuestionIndex + 1) / questoes.length) * 100;
+                questionProgress.style.width = progress + "%";
+                questionProgress.setAttribute("aria-valuenow", progress);
+                questionProgress.textContent = `${currentQuestionIndex + 1}/${questoes.length}`;
+            }
+
+            function loadQuestion(index) {
+                console.log(`loadQuestion chamada para o índice: ${index}`);
+                selectedAnswer = null;
+                const q = questoes[index];
+                let questionHtml = `<h4>${q.Enunciado}</h4>`;
+
+                if (q.Tipo === 0) { // MultipleChoice
+                    questionHtml += `
+                        <ul class="list-group mt-3">
+                            <li class="list-group-item answer-option" data-value="A">A) ${q.RespostaA}</li>
+                            <li class="list-group-item answer-option" data-value="B">B) ${q.RespostaB}</li>
+                            <li class="list-group-item answer-option" data-value="C">C) ${q.RespostaC}</li>
+                            <li class="list-group-item answer-option" data-value="D">D) ${q.RespostaD}</li>
+                        </ul>
+                    `;
+                } else if (q.Tipo === 1) { // FillInTheBlank
+                    questionHtml += `
+                        <div class="form-group mt-3">
+                            <label for="fillInTheBlankInput">Sua Resposta:</label>
+                            <input type="text" class="form-control-fill-in-the-blank-input" id="fillInTheBlankInput" placeholder="Digite sua resposta aqui">
+                        </div>
+                    `;
+                }
+
+                questionArea.innerHTML = questionHtml;
+
+                if (q.Tipo === 0) { // Attach event listeners only for MultipleChoice
+                    document.querySelectorAll(".answer-option").forEach(option => {
+                        option.addEventListener("click", function() {
+                            if (checkButton.style.display !== "none") {
+                                document.querySelectorAll(".answer-option").forEach(opt => opt.classList.remove("active"));
+                                this.classList.add("active");
+                                selectedAnswer = this.dataset.value;
+                            }
+                        });
+                    });
+                }
+                updateProgress();
+                feedbackArea.style.display = "none";
+                checkButton.style.display = "block";
+                nextButton.style.display = "none";
+                checkButton.disabled = false;
+            }
+
+            // Iniciar questionário SOMENTE SE o botão existir (ou seja, se houver questões)
+            console.log("Tentando encontrar o botão Iniciar Questionário...");
+            if (iniciarQuestionarioBtn) {
+                console.log("Botão Iniciar Questionário encontrado. Adicionando listener...");
+                iniciarQuestionarioBtn.addEventListener("click", function() {
+                    console.log("Botão Iniciar Questionário clicado!");
+                    explicacaoArea.style.display = "none";
+                    questionArea.style.display = "block";
+                    navigationButtons.style.display = "flex";
+                    // Carrega a primeira questão APENAS quando o botão é clicado
+                    console.log("Verificando se há questões para carregar...");
+                    if (questoes && questoes.length > 0) {
+                        console.log("Chamando loadQuestion...");
+                        loadQuestion(currentQuestionIndex);
+                    } else {
+                        console.log("Nenhuma questão encontrada para carregar.");
+                    }
+                });
+            } else {
+                console.log("Botão Iniciar Questionário NÃO encontrado.");
+            }
+
+            checkButton.addEventListener("click", function() {
+                const q = questoes[currentQuestionIndex];
+                let userAnswer;
+
+                if (q.Tipo === 0) { // MultipleChoice
+                    if (selectedAnswer === null) {
+                        alert("Por favor, selecione uma resposta.");
+                        return;
+                    }
+                    userAnswer = selectedAnswer;
+                } else if (q.Tipo === 1) { // FillInTheBlank
+                    const inputElement = document.getElementById("fillInTheBlankInput");
+                    if (!inputElement || inputElement.value.trim() === "") {
+                        alert("Por favor, digite sua resposta.");
+                        return;
+                    }
+                    userAnswer = inputElement.value.trim();
+                }
+
+                this.disabled = true;
+                const correctAnswer = q.RespostaCorreta;
+                let isCorrect = false;
+
+                if (q.Tipo === 0) { // MultipleChoice
+                    const options = document.querySelectorAll(".answer-option");
+                    options.forEach(option => {
+                        option.classList.remove("active");
+                        if (option.dataset.value === correctAnswer) {
+                            option.classList.add("list-group-item-success");
+                        }
+                        if (option.dataset.value === userAnswer && userAnswer !== correctAnswer) {
+                            option.classList.add("list-group-item-danger");
+                        }
+                        option.style.pointerEvents = "none";
+                    });
+                    isCorrect = (userAnswer === correctAnswer);
+                } else if (q.Tipo === 1) { // FillInTheBlank
+                    // Comparação case-insensitive e trim para FillInTheBlank
+                    isCorrect = (userAnswer.toLowerCase() === correctAnswer.toLowerCase());
+                    const inputElement = document.getElementById("fillInTheBlankInput");
+                    if (inputElement) {
+                        inputElement.disabled = true;
+                        if (isCorrect) {
+                            inputElement.classList.add("is-valid");
+                        } else {
+                            inputElement.classList.add("is-invalid");
+                        }
+                    }
+                }
+
+                if (isCorrect) {
+                    feedbackText.textContent = "Correto!";
+                    feedbackText.className = "fw-bold text-success";
+                    score++;
+                } else {
+                    feedbackText.textContent = `Incorreto. A resposta correta era: ${correctAnswer}`;
+                    feedbackText.className = "fw-bold text-danger";
+
+                    currentClientLives--;
+                    let popupMessage = "";
+                    if (currentClientLives <= 0) {
+                        popupMessage = "Você está sem vidas, terá que aguardar para continuar os estudos";
+                    } else if (!firstErrorOccurred) {
+                        popupMessage = "Oh não! que pena, você acaba de perder uma vida! lembre-se se perder 5 vidas terá que esperar até que elas recarreguem.";
+                        firstErrorOccurred = true;
+                    } else {
+                        popupMessage = "Oh não, lá se foi mais uma vida!";
+                    }
+
+                    errorPopupMessage.textContent = popupMessage;
+                    errorPopupOverlay.classList.add("show");
+                }
+                feedbackArea.style.display = "block";
+                checkButton.style.display = "none";
+                nextButton.style.display = "block";
+            });
+
+            nextButton.addEventListener("click", function() {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questoes.length) {
+                    loadQuestion(currentQuestionIndex);
+                }
+                else {
+                    var pontuacaoFinalObtida = score * 100;
+                    var totalQuestoesNoQuiz = questoes.length;
+
+                    const dadosResultado = {
+                        licaoId: licaoIdParaScript,
+                        scoreObtido: pontuacaoFinalObtida,
+                        totalQuestoes: totalQuestoesNoQuiz
+                    };
+
+                    questionArea.innerHTML = `<p class="text-center">Salvando seu progresso...</p>`;
+                    feedbackArea.style.display = "none";
+                    checkButton.style.display = "none";
+                    nextButton.style.display = "none";
+                    skipButton.style.display = "none";
+
+                    fetch("@Url.Action("ProcessarRespostas", "Home")", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(dadosResultado)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            questionArea.innerHTML = `
+                                <h3 class="text-center">Questionário Concluído!</h3>
+                                <p class="text-center">Você fez ${pontuacaoFinalObtida} pontos (${score} de ${totalQuestoesNoQuiz} questões corretas).</p>
+                                <p class="text-center">${data.message}</p>
+                                <p class="text-center">Vidas restantes: <span class="text-danger"><i class="fas fa-heart"></i> ${data.currentLives}</span></p>
+                                <div class="text-center mt-4">
+                                     <a href="@Url.Action("Trilhas", "Home")" class="btn btn-primary">Voltar para Trilhas</a>
+                                </div>
+                            `;
+                        }
+                        else {
+                            questionArea.innerHTML = `
+                                <h3 class="text-center text-danger">Erro ao Salvar!</h3>
+                                <p class="text-center">Ocorreu um erro ao salvar seu progresso: ${data.message}</p>
+                                <p class="text-center">Sua pontuação foi: ${pontuacaoFinalObtida} pontos (${score} de ${totalQuestoesNoQuiz} questões corretas).</p>
+                                <div class="text-center mt-4">
+                                     <a href="@Url.Action("Trilhas", "Home")" class="btn btn-warning">Voltar para Trilhas (Progresso não salvo)</a>
+                                </div>
+                            `;
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erro na requisição AJAX:", error);
+                        questionArea.innerHTML = `
+                            <h3 class="text-center text-danger">Erro de Conexão!</h3>
+                            <p class="text-center">Não foi possível conectar ao servidor para salvar seu progresso.</p>
+                            <p class="text-center">Sua pontuação foi: ${pontuacaoFinalObtida} pontos (${score} de ${totalQuestoesNoQuiz} questões corretas).</p>
+                            <div class="text-center mt-4">
+                                 <a href="@Url.Action("Trilhas", "Home")" class="btn btn-warning">Voltar para Trilhas (Progresso não salvo)</a>
+                            </div>
+                        `;
+                    })
+                    .finally(() => {
+                        const finalProgress = 100;
+                        questionProgress.style.width = finalProgress + "%";
+                        questionProgress.setAttribute("aria-valuenow", finalProgress);
+                        questionProgress.textContent = "Completo!";
+                    });
+                }
+            });
+
+            // Carrega a primeira questão se houver questões e o botão de iniciar não existir (caso raro, mas seguro)
+            // Ou se o botão existir, a primeira questão será carregada no clique do botão.
+            if (questoes && questoes.length > 0 && !iniciarQuestionarioBtn) {
+                console.log("Botão Iniciar não encontrado, carregando primeira questão diretamente.");
+                loadQuestion(currentQuestionIndex);
+            }
+        });
+    </script>
 
