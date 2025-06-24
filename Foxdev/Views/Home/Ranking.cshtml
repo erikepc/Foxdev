@@ -82,7 +82,7 @@
             </table>
         </div>
         <div class="text-center mt-4">
-            <a asp-controller="Home" asp-action="Convidado" class="btn btn-lg btn-foxdev-orange">Voltar aos Módulos</a>
+            <a asp-controller="Home" asp-action="@(User.Identity.IsAuthenticated ? "ModulosLogado" : "Convidado")" class="btn btn-lg btn-foxdev-orange">Voltar aos Módulos</a>
         </div>
     </div>
 

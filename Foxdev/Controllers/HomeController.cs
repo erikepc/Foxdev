@@ -177,10 +177,24 @@ namespace Foxdev.Controllers
 
         public IActionResult Trilhas()
         {
-            var nickname = HttpContext.Session.GetString("UserNickname");
-            if (string.IsNullOrEmpty(nickname))
+            // Verificar se o usuário está autenticado
+            if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Nickname");
+                // Usuário logado - usar dados do Identity
+                var userName = User.Identity.Name;
+                ViewData["Nickname"] = userName;
+                ViewData["IsAuthenticated"] = true;
+            }
+            else
+            {
+                // Usuário convidado - usar sistema de sessões
+                var nickname = HttpContext.Session.GetString("UserNickname");
+                if (string.IsNullOrEmpty(nickname))
+                {
+                    return RedirectToAction("Nickname");
+                }
+                ViewData["Nickname"] = nickname;
+                ViewData["IsAuthenticated"] = false;
             }
             
             // Buscar as lições do módulo de Lógica de Programação (ModuloId = 1)
@@ -195,39 +209,51 @@ namespace Foxdev.Controllers
                                  })
                                  .ToList();
             
-            ViewData["Nickname"] = nickname;
             ViewData["LicoesLogica"] = licoes; // Passa a lista com os ícones do banco
             return View();
         }
 
         public IActionResult Questionario(int licaoId)
         {
-            var nickname = HttpContext.Session.GetString("UserNickname");
-            if (string.IsNullOrEmpty(nickname))
-            {
-                return RedirectToAction("Nickname");
-            }
-
-            // Verificar e regenerar vidas
-            RegenerarVidas();
+            string nickname;
+            bool isAuthenticated = User.Identity.IsAuthenticated;
             
-            // Verificar se o usuário tem vidas suficientes
-            var currentLives = HttpContext.Session.GetInt32("UserLives") ?? 5;
-            if (currentLives <= 0)
+            if (isAuthenticated)
             {
-                TempData["ErrorMessage"] = "Você não tem vidas suficientes para iniciar esta lição. Aguarde a regeneração de vidas.";
-                return RedirectToAction("Convidado");
+                // Usuário logado
+                nickname = User.Identity.Name;
+            }
+            else
+            {
+                // Usuário convidado
+                nickname = HttpContext.Session.GetString("UserNickname");
+                if (string.IsNullOrEmpty(nickname))
+                {
+                    return RedirectToAction("Nickname");
+                }
+                
+                // Verificar e regenerar vidas apenas para convidados
+                RegenerarVidas();
+                
+                // Verificar se o usuário tem vidas suficientes
+                var currentLives = HttpContext.Session.GetInt32("UserLives") ?? 5;
+                if (currentLives <= 0)
+                {
+                    TempData["ErrorMessage"] = "Você não tem vidas suficientes para iniciar esta lição. Aguarde a regeneração de vidas.";
+                    return RedirectToAction("Convidado");
+                }
+                ViewData["UserLives"] = currentLives;
             }
 
             var licaoAtual = _context.Licaos.FirstOrDefault(l => l.Id == licaoId);
             var questoesDaLicao = _context.Questaos.Where(q => q.LicaoId == licaoId).ToList();
 
             ViewData["Nickname"] = nickname;
+            ViewData["IsAuthenticated"] = isAuthenticated;
             ViewData["LicaoId"] = licaoId;
             ViewData["NomeLicao"] = licaoAtual?.Titulo ?? "Lição Desconhecida";
             ViewData["Explicacao"] = licaoAtual?.Explicacao ?? "Explicação não disponível para esta lição.";
             ViewData["Questoes"] = questoesDaLicao;
-            ViewData["UserLives"] = currentLives;
             
             return View();
         }
@@ -236,63 +262,82 @@ namespace Foxdev.Controllers
         public IActionResult ProcessarRespostas([FromBody] ConvidadoRankingInfo parametros)
         {
             Console.WriteLine(parametros.scoreObtido);
-            var nickname = HttpContext.Session.GetString("UserNickname");
-            if (string.IsNullOrEmpty(nickname))
-            {
-                return Json(new { success = false, message = "Sessão expirada ou inválida." });
-            }
-
-            // Verificar e regenerar vidas antes de processar
-            RegenerarVidas();
-
-            var currentScore = HttpContext.Session.GetInt32("UserScore") ?? 0;
-            var currentLessons = HttpContext.Session.GetInt32("UserCompletedLessons") ?? 0;
-            var currentLives = HttpContext.Session.GetInt32("UserLives") ?? 5;
-
-            currentScore += parametros.scoreObtido;
-            currentLessons += 1;
-
-            // Calcular quantas respostas erradas houve
-            int totalQuestoes = parametros.totalQuestoes;
-            int acertos = parametros.scoreObtido / 100; // Cada acerto vale 100 pontos
-            int erros = totalQuestoes - acertos;
             
-            // Decrementar vidas com base nos erros
-            bool perdeuVida = false;
-            if (erros > 0)
+            bool isAuthenticated = User.Identity.IsAuthenticated;
+            string nickname;
+            
+            if (isAuthenticated)
             {
-                int vidasAntes = currentLives;
-                int novasVidas = Math.Max(0, currentLives - erros);
-                if (novasVidas < vidasAntes) perdeuVida = true;
-                HttpContext.Session.SetInt32("UserLives", novasVidas);
-            }
-
-            // Se perdeu vida e estava com 5 vidas, marca o início da contagem
-            if (perdeuVida && currentLives == 5)
-            {
-                 HttpContext.Session.SetString("LastLifeRegenerationTime", DateTime.UtcNow.ToString("o"));
-            }
-
-            HttpContext.Session.SetInt32("UserScore", currentScore);
-            HttpContext.Session.SetInt32("UserCompletedLessons", currentLessons);
-
-            var convidadoNoRanking = _convidadosRanking.FirstOrDefault(c => c.Nickname == nickname);
-            if (convidadoNoRanking != null)
-            {
-                convidadoNoRanking.Score = currentScore;
-                convidadoNoRanking.CompletedLessons = currentLessons;
+                // Usuário logado - não usa sistema de vidas nem ranking
+                nickname = User.Identity.Name;
+                return Json(new { 
+                    success = true, 
+                    message = "Progresso salvo com sucesso!", 
+                    isAuthenticated = true
+                });
             }
             else
             {
-                 _convidadosRanking.Add(new ConvidadoRankingInfo { Nickname = nickname, Score = currentScore, CompletedLessons = currentLessons });
-            }
+                // Usuário convidado - usar sistema de sessões
+                nickname = HttpContext.Session.GetString("UserNickname");
+                if (string.IsNullOrEmpty(nickname))
+                {
+                    return Json(new { success = false, message = "Sessão expirada ou inválida." });
+                }
 
-            // Incluir informações de vidas na resposta
-            return Json(new { 
-                success = true, 
-                message = "Progresso salvo com sucesso!", 
-                currentLives = HttpContext.Session.GetInt32("UserLives") ?? 0
-            });
+                // Verificar e regenerar vidas antes de processar
+                RegenerarVidas();
+
+                var currentScore = HttpContext.Session.GetInt32("UserScore") ?? 0;
+                var currentLessons = HttpContext.Session.GetInt32("UserCompletedLessons") ?? 0;
+                var currentLives = HttpContext.Session.GetInt32("UserLives") ?? 5;
+
+                currentScore += parametros.scoreObtido;
+                currentLessons += 1;
+
+                // Calcular quantas respostas erradas houve
+                int totalQuestoes = parametros.totalQuestoes;
+                int acertos = parametros.scoreObtido / 100; // Cada acerto vale 100 pontos
+                int erros = totalQuestoes - acertos;
+                
+                // Decrementar vidas com base nos erros
+                bool perdeuVida = false;
+                if (erros > 0)
+                {
+                    int vidasAntes = currentLives;
+                    int novasVidas = Math.Max(0, currentLives - erros);
+                    if (novasVidas < vidasAntes) perdeuVida = true;
+                    HttpContext.Session.SetInt32("UserLives", novasVidas);
+                }
+
+                // Se perdeu vida e estava com 5 vidas, marca o início da contagem
+                if (perdeuVida && currentLives == 5)
+                {
+                     HttpContext.Session.SetString("LastLifeRegenerationTime", DateTime.UtcNow.ToString("o"));
+                }
+
+                HttpContext.Session.SetInt32("UserScore", currentScore);
+                HttpContext.Session.SetInt32("UserCompletedLessons", currentLessons);
+
+                var convidadoNoRanking = _convidadosRanking.FirstOrDefault(c => c.Nickname == nickname);
+                if (convidadoNoRanking != null)
+                {
+                    convidadoNoRanking.Score = currentScore;
+                    convidadoNoRanking.CompletedLessons = currentLessons;
+                }
+                else
+                {
+                     _convidadosRanking.Add(new ConvidadoRankingInfo { Nickname = nickname, Score = currentScore, CompletedLessons = currentLessons });
+                }
+
+                // Incluir informações de vidas na resposta
+                return Json(new { 
+                    success = true, 
+                    message = "Progresso salvo com sucesso!", 
+                    currentLives = HttpContext.Session.GetInt32("UserLives") ?? 0,
+                    isAuthenticated = false
+                });
+            }
         }
         
         public IActionResult Ranking()
@@ -320,6 +365,16 @@ namespace Foxdev.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult ModulosLogado()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            ViewData["Nickname"] = User.Identity.Name;
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -327,4 +382,3 @@ namespace Foxdev.Controllers
         }
     }
 }
-

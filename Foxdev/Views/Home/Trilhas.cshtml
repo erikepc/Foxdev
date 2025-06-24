@@ -19,11 +19,27 @@
     <div class="container trail-container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="text-center mb-0">Trilha: Lógica de Programação</h1>
-            @if (!string.IsNullOrEmpty(ViewData["Nickname"] as string))
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Home" asp-action="ModulosLogado" class="btn btn-sm btn-outline-primary ms-2">Voltar para Módulos</a>
+            }
+            else if (!string.IsNullOrEmpty(ViewData["Nickname"] as string))
+            {
+                <a asp-controller="Home" asp-action="Convidado" class="btn btn-sm btn-outline-primary ms-2">Voltar para Módulos</a>
+            }
+            @if (!string.IsNullOrEmpty(ViewData["Nickname"] as string) || User.Identity.IsAuthenticated)
             {
                 <div class="d-flex align-items-center">
-                    <span class="me-2">Olá, <strong>@ViewData["Nickname"]</strong>!</span>
-                    <a asp-controller="Home" asp-action="SairDaSessao" class="btn btn-sm btn-outline-danger ms-2">Sair da Sessão</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-controller="Account" asp-action="Logout" method="post">
+                            <button type="submit" class="btn btn-sm btn-outline-danger ms-2">Sair</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Home" asp-action="SairDaSessao" class="btn btn-sm btn-outline-danger ms-2">Sair da Sessão</a>
+                    }
                     <a asp-controller="Home" asp-action="Duvidas" class="btn btn-sm btn-outline-success ms-2">Review Modulo</a>
                 </div>
             }

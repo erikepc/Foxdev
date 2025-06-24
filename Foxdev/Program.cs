@@ -37,8 +37,39 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var contexto = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    await contexto.Database.EnsureCreatedAsync();
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await context.Database.EnsureCreatedAsync();
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Usuario>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    // Criar role Admin se não existir
+    if (!await roleManager.RoleExistsAsync("Admin"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("Admin"));
+    }
+
+    // Verificar se já existe um usuário admin
+    var adminUser = await userManager.FindByEmailAsync("admin@foxdev.com");
+    if (adminUser == null)
+    {
+        var user = new Usuario
+        {
+            UserName = "admin@foxdev.com",
+            Email = "admin@foxdev.com",
+            Nome = "Administrador",
+            Idade = 30,
+            DataNascimento = new DateTime(1994, 1, 1),
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(user, "Admin123!");
+        
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
+        }
+    }
 }
 
 

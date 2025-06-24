@@ -1,0 +1,161 @@
+@model Foxdev.Models.Questao
+@{
+    ViewData["Title"] = "Criar Questão";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Questão - FoxDev Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" asp-action="Index">
+                <i class="fas fa-cog"></i> Admin FoxDev
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-home"></i> Voltar ao Site
+                </a>
+                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-link nav-link text-light">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Criar Nova Questão</h3>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="CriarQuestao" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label asp-for="LicaoId" class="form-label">Lição</label>
+                                        <select asp-for="LicaoId" class="form-select">
+                                            <option value="">Selecione uma lição</option>
+                                            @foreach (var licao in ViewBag.Licoes as List<Foxdev.Models.Licao>)
+                                            {
+                                                <option value="@licao.Id">@licao.Modulo.Titulo - @licao.Titulo</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="LicaoId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label asp-for="Tipo" class="form-label">Tipo de Questão</label>
+                                        <select asp-for="Tipo" class="form-select" id="tipoQuestao">
+                                            <option value="">Selecione o tipo</option>
+                                            <option value="0">Múltipla Escolha</option>
+                                            <option value="1">Completar</option>
+                                            <option value="2">Código</option>
+                                        </select>
+                                        <span asp-validation-for="Tipo" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label asp-for="Enunciado" class="form-label">Enunciado</label>
+                                <textarea asp-for="Enunciado" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Enunciado" class="text-danger"></span>
+                            </div>
+                            
+                            <div id="alternativas" style="display: none;">
+                                <h5>Alternativas (para questões de múltipla escolha)</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label asp-for="RespostaA" class="form-label">Alternativa A</label>
+                                            <input asp-for="RespostaA" class="form-control" />
+                                            <span asp-validation-for="RespostaA" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label asp-for="RespostaB" class="form-label">Alternativa B</label>
+                                            <input asp-for="RespostaB" class="form-control" />
+                                            <span asp-validation-for="RespostaB" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label asp-for="RespostaC" class="form-label">Alternativa C</label>
+                                            <input asp-for="RespostaC" class="form-control" />
+                                            <span asp-validation-for="RespostaC" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label asp-for="RespostaD" class="form-label">Alternativa D</label>
+                                            <input asp-for="RespostaD" class="form-control" />
+                                            <span asp-validation-for="RespostaD" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label asp-for="RespostaCorreta" class="form-label">Resposta Correta</label>
+                                <input asp-for="RespostaCorreta" class="form-control" />
+                                <small class="form-text text-muted" id="respostaHelp">
+                                    Para múltipla escolha: digite A, B, C ou D. Para completar/código: digite a resposta esperada.
+                                </small>
+                                <span asp-validation-for="RespostaCorreta" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between">
+                                <a asp-action="Questoes" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Voltar
+                                </a>
+                                <button type="submit" class="btn btn-info">
+                                    <i class="fas fa-save"></i> Criar Questão
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    
+    <script>
+        document.getElementById('tipoQuestao').addEventListener('change', function() {
+            var alternativas = document.getElementById('alternativas');
+            var respostaHelp = document.getElementById('respostaHelp');
+            
+            if (this.value === '0') { // Múltipla escolha
+                alternativas.style.display = 'block';
+                respostaHelp.textContent = 'Para múltipla escolha: digite A, B, C ou D.';
+            } else {
+                alternativas.style.display = 'none';
+                respostaHelp.textContent = 'Para completar/código: digite a resposta esperada.';
+            }
+        });
+    </script>
+</body>
+</html>
+
